@@ -1,16 +1,7 @@
-import DashboardLayout from "./layouts/DashboardLayout";
-import PageTitle from "./components/common/PageTitle";
-import Card from "./components/ui/Card";
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
-  return (
-    <DashboardLayout>
-      <Card>
-        <PageTitle title="Dashboard" />
-        <p>Welcome to Career OS!</p>
-      </Card>
-    </DashboardLayout>
-  );
+  return <AppRoutes />;
 }
 
 export default App;
