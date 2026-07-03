@@ -7,6 +7,8 @@ import {
 
 import WelcomeBanner from "../../components/dashboard/WelcomeBanner";
 import StatCard from "../../components/dashboard/StatCard";
+import AnalyticsCard from "../../components/dashboard/AnalyticsCard";
+import ProgressRing from "../../components/dashboard/ProgressRing";
 import WeeklyActivity from "../../components/dashboard/WeeklyActivity";
 import RecommendationSection from "../../components/dashboard/RecommendationSection";
 import GoalsSection from "../../components/dashboard/GoalsSection";
@@ -44,7 +46,8 @@ function Dashboard() {
 
       <WelcomeBanner />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* Stat Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
         {stats.map((stat, index) => (
           <StatCard
             key={index}
@@ -56,11 +59,36 @@ function Dashboard() {
         ))}
       </div>
 
-      <WeeklyActivity />
+      {/* Analytics + Progress */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-10">
 
-      <RecommendationSection />
+        <AnalyticsCard
+          title="Resume Analysis"
+          subtitle="Your resume was analyzed today. View detailed AI insights and suggestions."
+          buttonText="View Details"
+        />
 
-      <GoalsSection />
+        <ProgressRing
+          percentage={76}
+          label="Weekly Progress"
+        />
+
+      </div>
+
+      {/* Weekly Activity */}
+      <div className="mt-10">
+        <WeeklyActivity />
+      </div>
+
+      {/* AI Recommendations */}
+      <div className="mt-10">
+        <RecommendationSection />
+      </div>
+
+      {/* Goals */}
+      <div className="mt-10">
+        <GoalsSection />
+      </div>
 
     </div>
   );
