@@ -1,38 +1,46 @@
-import { UploadCloud, FileText } from "lucide-react";
+import { useState } from "react";
+import aiService from "../../services/aiService";
 
 function UploadResumeCard() {
+  const [file, setFile] = useState(null);
+
+  const handleUpload = async () => {
+    if (!file) {
+      alert("Please select a resume.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("resume", file);
+
+    try {
+      const response = await aiService.uploadResume(formData);
+      console.log(response);
+      alert("Resume uploaded successfully!");
+    } catch (error) {
+      console.error(error);
+      alert("Backend is not connected yet.");
+    }
+  };
+
   return (
-    <div className="mt-8 bg-white rounded-3xl shadow-xl p-8 border-2 border-dashed border-blue-300 hover:border-blue-500 transition duration-300">
+    <div className="bg-white rounded-xl shadow-md p-6">
+      <h2 className="text-xl font-bold mb-4">
+        Upload Resume
+      </h2>
 
-      <div className="flex flex-col items-center text-center">
+      <input
+        type="file"
+        accept=".pdf,.doc,.docx"
+        onChange={(e) => setFile(e.target.files[0])}
+      />
 
-        <div className="bg-blue-100 p-5 rounded-full">
-          <UploadCloud size={50} className="text-blue-600" />
-        </div>
-
-        <h2 className="text-2xl font-bold mt-5">
-          Upload Your Resume
-        </h2>
-
-        <p className="text-gray-500 mt-2">
-          Drag & Drop your resume here
-        </p>
-
-        <p className="text-gray-400">
-          or
-        </p>
-
-        <button className="mt-5 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl flex items-center gap-2 transition">
-          <FileText size={20} />
-          Upload PDF
-        </button>
-
-        <p className="text-sm text-gray-400 mt-4">
-          Supported formats: PDF, DOCX (Max 5 MB)
-        </p>
-
-      </div>
-
+      <button
+        onClick={handleUpload}
+        className="mt-4 bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700"
+      >
+        Upload Resume
+      </button>
     </div>
   );
 }

@@ -1,8 +1,12 @@
+import { useState } from "react";
+
 import GitHubStatCard from "../../components/github/GitHubStatCard";
 import LanguageCard from "../../components/github/LanguageCard";
 import RepositoryCard from "../../components/github/RepositoryCard";
 import RecommendationCard from "../../components/github/RecommendationCard";
 import ContributionChart from "../../components/github/ContributionChart";
+
+import aiService from "../../services/aiService";
 
 import {
   Code2,
@@ -12,6 +16,24 @@ import {
 } from "lucide-react";
 
 function GitHubAnalysis() {
+  const [username, setUsername] = useState("");
+
+  const handleAnalyze = async () => {
+    if (!username) {
+      alert("Please enter a GitHub username.");
+      return;
+    }
+
+    try {
+      const response = await aiService.analyzeGithub(username);
+      console.log(response);
+      alert("Analysis completed!");
+    } catch (error) {
+      console.error(error);
+      alert("Backend is not connected yet.");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 p-8">
 
@@ -19,7 +41,29 @@ function GitHubAnalysis() {
         🐙 GitHub Analysis
       </h1>
 
+      {/* GitHub Username */}
+
+      <div className="flex gap-4 mb-8">
+
+        <input
+          type="text"
+          placeholder="Enter GitHub Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          className="flex-1 border border-gray-300 rounded-lg px-4 py-3"
+        />
+
+        <button
+          onClick={handleAnalyze}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg"
+        >
+          Analyze
+        </button>
+
+      </div>
+
       {/* Stats */}
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
         <GitHubStatCard
