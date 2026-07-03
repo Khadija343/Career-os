@@ -1,12 +1,15 @@
+import { Link } from "react-router-dom";
+
 function Sidebar() {
   return (
     <aside>
-      <p>Sidebar</p>
+      <ul>
+        <li>
+          <Link to="/dashboard">Dashboard</Link>
+        </li>
+      </ul>
     </aside>
   );
 }
 
 export default Sidebar;
-
-
-// aside tells the browser that it is sidebar
