@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import ProtectedRoute from "./ProtectedRoute";
 
+import EditProfile from "../pages/Profile/EditProfile";
 import Profile from "../pages/Profile/Profile";
 import Landing from "../pages/Landing/Landing";
 import Login from "../pages/Login/Login";
@@ -45,7 +46,13 @@ function AppRoutes() {
           path="/profile"
           element={<Profile />}
         />
+
+        <Route
+          path="/profile/edit"
+          element={<EditProfile />}
+        />
       </Routes>
+
     </BrowserRouter>
   );
 }
