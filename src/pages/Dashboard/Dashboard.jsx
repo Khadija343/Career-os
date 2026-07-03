@@ -1,32 +1,28 @@
-import Card from "../../components/ui/Card";
+import { useNavigate } from "react-router-dom";
+
+import Button from "../../components/ui/Button";
 import PageTitle from "../../components/common/PageTitle";
 
 function Dashboard() {
+  const navigate = useNavigate();
+
+  function handleLogout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    navigate("/login");
+  }
+
   return (
     <div>
       <PageTitle title="Dashboard" />
 
-      <p>Welcome back!</p>
+      <p>Welcome to Career OS Dashboard.</p>
 
-      <Card>
-        <h3>Career Score</h3>
-        <p>89</p>
-      </Card>
-
-      <Card>
-        <h3>Resume Score</h3>
-        <p>90</p>
-      </Card>
-
-      <Card>
-        <h3>GitHub Score</h3>
-        <p>83</p>
-      </Card>
-
-      <Card>
-        <h3>Roadmap Progress</h3>
-        <p>54%</p>
-      </Card>
+      <Button
+        text="Logout"
+        onClick={handleLogout}
+      />
     </div>
   );
 }
