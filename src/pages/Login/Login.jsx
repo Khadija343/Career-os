@@ -9,6 +9,7 @@ import Card from "../../components/ui/Card";
 import Input from "../../components/ui/Input";
 import Button from "../../components/ui/Button";
 import PageTitle from "../../components/common/PageTitle";
+import Spinner from "../../components/ui/Spinner";
 
 function Login() {
   const navigate = useNavigate();
@@ -17,41 +18,62 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
   async function handleSubmit(e) {
     e.preventDefault();
+    setError("");
+    setLoading(true);
 
     if (!email || !password) {
-      alert("Please enter email and password.");
-      return;
+    setError("Please enter email and password.");
+    setLoading(false);
+    return;
     }
 
-    // Temporary dummy login
-    // Replace this block later
-    const response = {
-      data: {
-        success: true,
-        token: "DummyJWTToken123",
-        user: {
-          name: "Laiba",
-          email: email,
+    try {
+      // Temporary dummy login
+      const response = {
+        data: {
+          success: true,
+          token: "DummyJWTToken123",
+          user: {
+            name: "Laiba",
+            email,
+          },
         },
-      },
-    };
+      };
 
-    if (response.data.success) {
-      login(
-        response.data.user,
-        response.data.token
-      );
+      if (response.data.success) {
+        login(
+          response.data.user,
+          response.data.token
+        );
 
-      //After successful login, take the user to the Dashboard
-      navigate("/dashboard");
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      setError("Login failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
   }
 
   return (
     <Card>
       <PageTitle title="Login" />
+      
+      {error && (
+        <p
+          style={{
+            color: "red",
+            marginBottom: "15px",
+          }}
+        >
+          {error}
+        </p>
+      )}
 
       <form onSubmit={handleSubmit}>
         <Input
@@ -78,9 +100,13 @@ function Login() {
         <br />
         <br />
 
+        {loading && <Spinner />}
+        <br />
+
         <Button
-          text="Login"
+          text={loading ? "Logging in..." : "Login"}
           type="submit"
+          disabled={loading} //button becomes disabled while processing.
         />
       </form>
     </Card>
