@@ -3,7 +3,8 @@ import AnalysisCard from "../../components/resume/AnalysisCard";
 import KeywordTag from "../../components/resume/KeywordTag";
 import SuggestionCard from "../../components/resume/SuggestionCard";
 import UploadResumeCard from "../../components/resume/UploadResumeCard";
-
+import Button from "../../components/common/Button";
+import Card from "../../components/common/Card";
 function ResumeAnalysis() {
   return (
     <div className="min-h-screen bg-gray-100 p-8">
