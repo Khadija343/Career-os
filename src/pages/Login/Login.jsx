@@ -1,6 +1,9 @@
-import { login } from "../../api/authService";
+//import { login as loginUser } from "../../api/authService";
+//since the backend isnt connected yet
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 import Card from "../../components/ui/Card";
 import Input from "../../components/ui/Input";
@@ -9,6 +12,7 @@ import PageTitle from "../../components/common/PageTitle";
 
 function Login() {
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,7 +26,7 @@ function Login() {
     }
 
     // Temporary dummy login
-    // Replace this block with axios later
+    // Replace this block later
     const response = {
       data: {
         success: true,
@@ -35,14 +39,9 @@ function Login() {
     };
 
     if (response.data.success) {
-      localStorage.setItem(
-        "token",
+      login(
+        response.data.user,
         response.data.token
-      );
-
-      localStorage.setItem(
-        "user",
-        JSON.stringify(response.data.user)
       );
 
       //After successful login, take the user to the Dashboard
@@ -90,14 +89,9 @@ function Login() {
 
 export default Login;
 
-// after completing backend, only replace the dummy response inside handleSubmit with an Axios request.
+// after completing backend, only replace the dummy with this:
 
-// import axios from "axios";
-
-// const response = await axios.post(
-//   "/api/v1/auth/login",
-//   {
-//     email,
-//     password,
-//   }
-// );
+// const response = await loginUser({
+//   email,
+//   password,
+// });

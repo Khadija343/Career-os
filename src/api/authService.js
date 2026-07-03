@@ -5,9 +5,17 @@ export function login(data) {
 }
 
 export function getProfile() {
-  return api.get("/auth/profile");
+  return api.get("/auth/profile", {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
 }
 
 export function updateProfile(data) {
-  return api.put("/auth/profile", data);
+  return api.put("/auth/profile", data, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
 }
