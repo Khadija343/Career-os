@@ -13,6 +13,7 @@ import Button from "../../components/ui/Button";
 import PageTitle from "../../components/common/PageTitle";
 import Spinner from "../../components/ui/Spinner";
 import Alert from "../../components/ui/Alert";
+import AuthLayout from "../../layouts/AuthLayout";
 
 function Login() {
   const navigate = useNavigate();
@@ -81,62 +82,54 @@ function Login() {
   }
 
   return (
-    <Card>
-      <PageTitle title="Login" />
+    <AuthLayout>
+      <Card>
+        <PageTitle title="Login" subtitle="Welcome back, log in to continue." />
 
-      <Alert message={error} />
+        <Alert message={error} />
 
-      <form onSubmit={handleSubmit}>
-        <Input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <Input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-        <br />
-        <br />
+          <Input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-        <Input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+          {loading && <Spinner />}
 
-        <br />
-        <br />
+          <Button
+            text={loading ? "Logging in..." : "Login"}
+            type="submit"
+            disabled={loading}
+            fullWidth
+          />
+        </form>
 
-        {loading && <Spinner />}
+        <div className="mt-6 flex flex-col items-center gap-3 text-sm">
+          <Link to={ROUTES.FORGOT_PASSWORD} className="text-primary hover:underline">
+            Forgot Password?
+          </Link>
 
-        <br />
-
-        <Button
-          text={loading ? "Logging in..." : "Login"}
-          type="submit"
-          disabled={loading}
-        />
-      </form>
-
-      <br />
-
-      <Link to={ROUTES.FORGOT_PASSWORD}>
-        Forgot Password?
-      </Link>
-
-      <br />
-      <br />
-
-      <p>
-        Don't have an account?
-      </p>
-
-      <Link to={ROUTES.SIGNUP}>
-        Sign Up
-      </Link>
-
-    </Card>
+          <p className="text-white/50">
+            Don&apos;t have an account?{" "}
+            <Link to={ROUTES.SIGNUP} className="font-medium text-primary hover:underline">
+              Sign Up
+            </Link>
+          </p>
+        </div>
+      </Card>
+    </AuthLayout>
   );
 }
 
 export default Login;
+
+

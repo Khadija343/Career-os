@@ -9,6 +9,7 @@ import Button from "../../components/ui/Button";
 import PageTitle from "../../components/common/PageTitle";
 import Spinner from "../../components/ui/Spinner";
 import Alert from "../../components/ui/Alert";
+import AuthLayout from "../../layouts/AuthLayout";
 
 function ResetPassword() {
   const navigate = useNavigate();
@@ -77,54 +78,49 @@ function ResetPassword() {
   }
 
   return (
-    <Card>
-      <PageTitle title="Reset Password" />
+    <AuthLayout>
+      <Card>
+        <PageTitle title="Reset Password" subtitle="Choose a new password for your account." />
 
-      <Alert message={error} />
+        <Alert message={error} />
 
-      <Alert
-        message={success}
-        type="success"
-      />
-
-      <form onSubmit={handleSubmit}>
-        <Input
-          type="password"
-          placeholder="New Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+        <Alert
+          message={success}
+          type="success"
         />
 
-        <br />
-        <br />
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <Input
+            type="password"
+            placeholder="New Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-        <Input
-          type="password"
-          placeholder="Confirm Password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-        />
+          <Input
+            type="password"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
 
-        <br />
-        <br />
+          {loading && <Spinner />}
 
-        {loading && <Spinner />}
+          <Button
+            text={loading ? "Updating..." : "Reset Password"}
+            type="submit"
+            disabled={loading}
+            fullWidth
+          />
+        </form>
 
-        <br />
-
-        <Button
-          text={loading ? "Updating..." : "Reset Password"}
-          type="submit"
-          disabled={loading}
-        />
-      </form>
-
-      <br />
-
-      <Link to={ROUTES.LOGIN}>
-        Back to Login
-      </Link>
-    </Card>
+        <p className="mt-6 text-center text-sm">
+          <Link to={ROUTES.LOGIN} className="font-medium text-primary hover:underline">
+            Back to Login
+          </Link>
+        </p>
+      </Card>
+    </AuthLayout>
   );
 }
 
@@ -132,3 +128,4 @@ export default ResetPassword;
 
 //Reset Password is usually not linked from anywhere in the app. 
 // The user reaches it from the email sent by the backend.
+

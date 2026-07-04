@@ -1,7 +1,17 @@
-function Logo() {
+function Logo({ className = "" }) {
   return (
-    <h1>Career OS Logo</h1>
+    <div className={`flex items-center gap-2 ${className}`}>
+      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-secondary text-sm font-bold text-white">
+        C
+      </div>
+      <span className="text-lg font-bold tracking-tight text-white">
+        Career OS
+      </span>
+    </div>
   );
 }
 
 export default Logo;
+
+
+

@@ -9,6 +9,7 @@ import { ROUTES } from "../../utils/constants";
 
 import PageTitle from "../../components/common/PageTitle";
 import Card from "../../components/ui/Card";
+import Avatar from "../../components/ui/Avatar";
 
 function Profile() {
   const { user } = useContext(AuthContext);
@@ -25,7 +26,7 @@ function Profile() {
             <Card>
             <PageTitle title="My Profile" />
 
-            <p>No user information available.</p>
+            <p className="text-sm text-white/50">No user information available.</p>
             </Card>
         );
     }
@@ -34,24 +35,27 @@ function Profile() {
     <Card>
         <PageTitle title="My Profile" />
 
-        <p style={{ marginBottom: "10px" }}>
-            <strong>Name:</strong> {user.name}
-        </p>
+        <div className="mb-6 flex items-center gap-4">
+          <Avatar name={user.name} size={56} />
 
-        <p style={{ marginBottom: "20px" }}>
-            <strong>Email:</strong> {user.email}
-        </p>
+          <div>
+            <p className="text-base font-semibold text-white">{user.name}</p>
+            <p className="text-sm text-white/50">{user.email}</p>
+          </div>
+        </div>
 
-        <Link to={ROUTES.EDIT_PROFILE}>
-            <Button text="Edit Profile" />
-        </Link>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <Link to={ROUTES.EDIT_PROFILE} className="sm:w-auto">
+              <Button text="Edit Profile" fullWidth />
+          </Link>
 
-        <br />
-
-        <Button
-          text="Back to Dashboard"
-          onClick={() => navigate(ROUTES.DASHBOARD)}
-        />
+          <Button
+            text="Back to Dashboard"
+            variant="outline"
+            onClick={() => navigate(ROUTES.DASHBOARD)}
+            fullWidth
+          />
+        </div>
     </Card>
   );
 }
@@ -60,3 +64,6 @@ export default Profile;
 
 // Once the backend is ready, we'll update the page to call:
 // const profile = await getProfile();
+
+
+

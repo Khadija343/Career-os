@@ -79,7 +79,7 @@ function EditProfile() {
 
   return (
     <Card>
-        <PageTitle title="Edit Profile" />
+        <PageTitle title="Edit Profile" subtitle="Update your name and email address." />
 
         <Alert message={error} />
         <Alert
@@ -87,15 +87,12 @@ function EditProfile() {
             type="success"
         />
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="space-y-4">
         <Input
           placeholder="Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-
-        <br />
-        <br />
 
         <Input
           type="email"
@@ -104,28 +101,29 @@ function EditProfile() {
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <br />
-        <br />
-
         {loading && <Spinner />}
 
-        <br />
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <Button
+            text={loading ? "Saving..." : "Save Changes"}
+            type="submit"
+            disabled={loading}
+            fullWidth
+          />
 
-        <Button
-          text={loading ? "Saving..." : "Save Changes"}
-          type="submit"
-          disabled={loading}
-        />
-
-        <br />
-
-        <Button
-          text="Back to Profile"
-          onClick={() => navigate(ROUTES.PROFILE)}
-        />
+          <Button
+            text="Back to Profile"
+            type="button"
+            variant="outline"
+            onClick={() => navigate(ROUTES.PROFILE)}
+            fullWidth
+          />
+        </div>
       </form>
     </Card>
   );
 }
 
 export default EditProfile;
+
+

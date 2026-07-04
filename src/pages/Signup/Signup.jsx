@@ -10,6 +10,7 @@ import Button from "../../components/ui/Button";
 import PageTitle from "../../components/common/PageTitle";
 import Spinner from "../../components/ui/Spinner";
 import Alert from "../../components/ui/Alert";
+import AuthLayout from "../../layouts/AuthLayout";
 
 function Signup() {
   const navigate = useNavigate();
@@ -99,79 +100,67 @@ function Signup() {
   }
 
   return (
-    <Card>
-      <PageTitle title="Create Account" />
+    <AuthLayout>
+      <Card>
+        <PageTitle title="Create Account" subtitle="Start your career journey with Career OS." />
 
-      <Alert message={error} />
+        <Alert message={error} />
 
-      <Alert
-        message={success}
-        type="success"
-      />
-
-      <form onSubmit={handleSubmit}>
-        <Input
-          type="text"
-          placeholder="Full Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+        <Alert
+          message={success}
+          type="success"
         />
 
-        <br />
-        <br />
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <Input
+            type="text"
+            placeholder="Full Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
 
-        <Input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+          <Input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-        <br />
-        <br />
+          <Input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-        <Input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+          <Input
+            type="password"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
 
-        <br />
-        <br />
+          {loading && <Spinner />}
 
-        <Input
-          type="password"
-          placeholder="Confirm Password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-        />
+          <Button
+            text={loading ? "Creating Account..." : "Sign Up"}
+            type="submit"
+            disabled={loading}
+            fullWidth
+          />
+        </form>
 
-        <br />
-        <br />
-
-        {loading && <Spinner />}
-
-        <br />
-
-        <Button
-          text={loading ? "Creating Account..." : "Sign Up"}
-          type="submit"
-          disabled={loading}
-        />
-      </form>
-
-      <br />
-
-      <p>
-        Already have an account?
-      </p>
-
-      <Link to={ROUTES.LOGIN}>
-        Login
-      </Link>
-    </Card>
+        <p className="mt-6 text-center text-sm text-white/50">
+          Already have an account?{" "}
+          <Link to={ROUTES.LOGIN} className="font-medium text-primary hover:underline">
+            Login
+          </Link>
+        </p>
+      </Card>
+    </AuthLayout>
   );
 }
 
 export default Signup;
+
+
