@@ -16,6 +16,20 @@ function Sidebar() {
             My Profile
           </Link>
         </li>
+
+        <li>Resume Analysis (Coming Soon)</li>
+
+        <li>GitHub Analysis (Coming Soon)</li>
+
+        <li>Roadmap (Coming Soon)</li>
+
+        <li>AI Chat (Coming Soon)</li>
+
+        <li>Interview Prep (Coming Soon)</li>
+
+        <li>Projects (Coming Soon)</li>
+
+        <li>Settings (Coming Soon)</li>
       </ul>
     </aside>
   );

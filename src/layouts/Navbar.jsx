@@ -17,14 +17,18 @@ function Navbar() {
 }
 
   return (
-    <nav>
-      <Logo />
+      <nav>
+        <Logo />
 
-      <Button
-        text="Logout"
-        onClick={handleLogout}
-      />
-    </nav>
+        <div>
+          <Logo />
+
+          <Button
+            text="Logout"
+            onClick={handleLogout}
+          />
+        </div>
+      </nav>
   );
 }
 
