@@ -1,5 +1,7 @@
 import Resume from "../models/Resume.model.js";
 
+import { RESUME_STATUS } from "../constants/status.constants.js";
+
 class ResumeRepository {
 
     /**
@@ -70,6 +72,79 @@ class ResumeRepository {
             },
             {
                 isActive: false,
+            }
+        );
+
+    }
+
+    /**
+     * Mark Resume as Currently Being Parsed
+     */
+    async markProcessing(resumeId) {
+
+        return await Resume.findByIdAndUpdate(
+            resumeId,
+            {
+                status: RESUME_STATUS.PROCESSING,
+            },
+            {
+                new: true,
+            }
+        );
+
+    }
+
+    /**
+     * Mark Resume as Successfully Parsed
+     */
+    async markParsed(resumeId, rawText) {
+
+        return await Resume.findByIdAndUpdate(
+            resumeId,
+            {
+                rawText,
+                status: RESUME_STATUS.PARSED,
+                parsedAt: new Date(),
+                parseError: "",
+            },
+            {
+                new: true,
+            }
+        );
+
+    }
+
+    /**
+     * Mark Resume Parsing as Failed
+     */
+    async markParseFailed(resumeId, errorMessage) {
+
+        return await Resume.findByIdAndUpdate(
+            resumeId,
+            {
+                status: RESUME_STATUS.FAILED,
+                parseError: errorMessage,
+            },
+            {
+                new: true,
+            }
+        );
+
+    }
+
+    /**
+     * Save Structured Data & Mark Resume as Structured
+     */
+    async saveParsedData(resumeId, parsedData) {
+
+        return await Resume.findByIdAndUpdate(
+            resumeId,
+            {
+                parsedData,
+                status: RESUME_STATUS.STRUCTURED,
+            },
+            {
+                new: true,
             }
         );
 

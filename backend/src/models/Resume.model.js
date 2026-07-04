@@ -58,7 +58,7 @@ const resumeSchema = new mongoose.Schema(
 
         status: {
             type: String,
-            enum: ["uploaded", "processing", "parsed", "failed"],
+            enum: ["uploaded", "processing", "parsed", "structured", "failed"],
             default: "uploaded",
         },
 
@@ -86,6 +86,11 @@ const resumeSchema = new mongoose.Schema(
         parseError: {
             type: String,
             default: "",
+        },
+
+        parsedAt: {
+            type: Date,
+            default: null,
         },
 
         /*

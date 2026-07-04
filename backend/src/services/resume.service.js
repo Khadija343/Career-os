@@ -4,6 +4,18 @@ import path from "path";
 import resumeRepository from "../repositories/Resume.repository.js";
 import userRepository from "../repositories/User.repository.js";
 import ApiError from "../utils/ApiError.js";
+import extractResumeText from "../helpers/extractResumeText.js";
+
+import {
+    parsePersonalInfo,
+    parseEducation,
+    parseExperience,
+    parseProjects,
+    parseSkills,
+    parseCertifications,
+    parseAchievements,
+    parseLanguages,
+} from "../parsers/index.js";
 
 import { RESUME_STATUS } from "../constants/status.constants.js";
 
@@ -23,6 +35,10 @@ class ResumeService {
             fileSize: resume.fileSize,
             status: resume.status,
             isActive: resume.isActive,
+            rawText: resume.rawText,
+            parsedAt: resume.parsedAt,
+            parseError: resume.parseError,
+            parsedData: resume.parsedData,
             createdAt: resume.createdAt,
             updatedAt: resume.updatedAt,
         };
@@ -58,6 +74,82 @@ class ResumeService {
         }
 
         return resume;
+
+    }
+
+    /**
+     * Extract & Persist Resume Text (Phase 1 — deterministic parsing only)
+     *
+     * Runs synchronously right after upload since there is no job queue
+     * yet. A parsing failure must NEVER fail the upload request — the
+     * file and Resume record already exist successfully at that point,
+     * so failures here are only reflected in status/parseError.
+     */
+    async parseResumeText(resume) {
+
+        try {
+
+            await resumeRepository.markProcessing(resume._id);
+
+            const rawText = await extractResumeText(
+                resume.filePath,
+                resume.fileType
+            );
+
+            return await resumeRepository.markParsed(resume._id, rawText);
+
+        } catch (error) {
+
+            return await resumeRepository.markParseFailed(
+                resume._id,
+                error.message || "Failed to extract text from resume."
+            );
+
+        }
+
+    }
+
+    /**
+     * Structure Resume Text into JSON (Phase 2 — deterministic, no LLM)
+     *
+     * Orchestrates the individual, single-purpose parsers (each one only
+     * knows how to read rawText and return its own slice of structured
+     * data) and assembles their output into one parsedData object.
+     *
+     * Only called when rawText extraction actually succeeded — there is
+     * nothing to structure otherwise. Like parsing, a structuring failure
+     * must not undo the already-successful "parsed" state; the resume
+     * simply stays at status "parsed" and the error is recorded.
+     */
+    async structureResume(resume) {
+
+        if (!resume.rawText) {
+            return resume;
+        }
+
+        try {
+
+            const parsedData = {
+                personalInfo: parsePersonalInfo(resume.rawText),
+                education: parseEducation(resume.rawText),
+                experience: parseExperience(resume.rawText),
+                projects: parseProjects(resume.rawText),
+                skills: parseSkills(resume.rawText),
+                certifications: parseCertifications(resume.rawText),
+                achievements: parseAchievements(resume.rawText),
+                languages: parseLanguages(resume.rawText),
+            };
+
+            return await resumeRepository.saveParsedData(resume._id, parsedData);
+
+        } catch (error) {
+
+            return await resumeRepository.markParseFailed(
+                resume._id,
+                `Structuring failed: ${error.message}`
+            );
+
+        }
 
     }
 
@@ -105,7 +197,19 @@ class ResumeService {
 
         await userRepository.markProfileCompleted(userId);
 
-        return this.sanitizeResume(resume);
+        // Phase 1 resume parsing: extract raw text right away so the
+        // client immediately sees status "parsed" (or "failed") and,
+        // when successful, the extracted rawText in the same response.
+        const parsedResume = await this.parseResumeText(resume);
+
+        // Phase 2: only attempt structuring if text extraction actually
+        // succeeded — there is nothing to structure from a failed parse.
+        const finalResume =
+            parsedResume.status === RESUME_STATUS.PARSED
+                ? await this.structureResume(parsedResume)
+                : parsedResume;
+
+        return this.sanitizeResume(finalResume);
 
     }
 
