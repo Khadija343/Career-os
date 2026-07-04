@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { isValidEmail } from "../../utils/validation";
 import { AuthContext } from "../../context/AuthContext";
 // import { updateProfile } from "../../api/authService";
 // Uncomment when the backend is ready.
@@ -36,10 +37,7 @@ function EditProfile() {
             return;
         }
 
-        // Validate email format
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-        if (!emailPattern.test(email)) {
+        if (!isValidEmail(email)) { {
             setError("Please enter a valid email address.");
             setLoading(false);
             return;

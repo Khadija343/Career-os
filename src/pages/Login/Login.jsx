@@ -4,6 +4,8 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { isValidEmail } from "../../utils/validation";
+import { ROUTES } from "../../utils/constants";
 
 import Card from "../../components/ui/Card";
 import Input from "../../components/ui/Input";
@@ -35,10 +37,7 @@ function Login() {
       return;
     }
 
-    // Validate email format
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!emailPattern.test(email)) {
+    if (!isValidEmail(email)) { {
       setError("Please enter a valid email address.");
       setLoading(false);
       return;
@@ -61,12 +60,7 @@ function Login() {
         },
       };
 
-      // Future backend code:
-      //
-      // const response = await loginUser({
-      //   email,
-      //   password,
-      // });
+      // TODO: Replace dummy login with loginUser() when backend is connected.
 
       if (response.data.success) {
         login(
@@ -74,7 +68,7 @@ function Login() {
           response.data.token
         );
 
-        navigate("/dashboard");
+        navigate(ROUTES.DASHBOARD);
       } else {
         setError("Invalid email or password.");
       }
