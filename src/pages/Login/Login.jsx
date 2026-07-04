@@ -1,8 +1,8 @@
-//import { login as loginUser } from "../../api/authService";
-//since the backend isnt connected yet
-import { useState } from "react";
+// import { login as loginUser } from "../../api/authService";
+// Uncomment when the backend is connected.
+
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 import Card from "../../components/ui/Card";
@@ -24,22 +24,32 @@ function Login() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+
     setError("");
     setLoading(true);
 
-    if (!email || !password) {
-      const emailPattern =
-      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // Check empty fields
+    if (!email.trim() || !password.trim()) {
+      setError("Please enter email and password.");
+      setLoading(false);
+      return;
+    }
 
-      if (!emailPattern.test(email)) {
-        setError("Please enter a valid email address.");
-        setLoading(false);
-        return;
-      }
+    // Validate email format
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailPattern.test(email)) {
+      setError("Please enter a valid email address.");
+      setLoading(false);
+      return;
     }
 
     try {
+      // ====================================================
       // Temporary dummy login
+      // Replace this block when backend is connected
+      // ====================================================
+
       const response = {
         data: {
           success: true,
@@ -51,6 +61,13 @@ function Login() {
         },
       };
 
+      // Future backend code:
+      //
+      // const response = await loginUser({
+      //   email,
+      //   password,
+      // });
+
       if (response.data.success) {
         login(
           response.data.user,
@@ -58,6 +75,8 @@ function Login() {
         );
 
         navigate("/dashboard");
+      } else {
+        setError("Invalid email or password.");
       }
     } catch (error) {
       setError("Login failed. Please try again.");
@@ -69,7 +88,7 @@ function Login() {
   return (
     <Card>
       <PageTitle title="Login" />
-      
+
       <Alert message={error} />
 
       <form onSubmit={handleSubmit}>
@@ -77,9 +96,7 @@ function Login() {
           type="email"
           placeholder="Email"
           value={email}
-          onChange={(e) =>
-            setEmail(e.target.value)
-          }
+          onChange={(e) => setEmail(e.target.value)}
         />
 
         <br />
@@ -89,21 +106,20 @@ function Login() {
           type="password"
           placeholder="Password"
           value={password}
-          onChange={(e) =>
-            setPassword(e.target.value)
-          }
+          onChange={(e) => setPassword(e.target.value)}
         />
 
         <br />
         <br />
 
         {loading && <Spinner />}
+
         <br />
 
         <Button
           text={loading ? "Logging in..." : "Login"}
           type="submit"
-          disabled={loading} //button becomes disabled while processing.
+          disabled={loading}
         />
       </form>
     </Card>
@@ -111,10 +127,3 @@ function Login() {
 }
 
 export default Login;
-
-// after completing backend, only replace the dummy with this:
-
-// const response = await loginUser({
-//   email,
-//   password,
-// });

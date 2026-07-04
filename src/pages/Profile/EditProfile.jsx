@@ -13,35 +13,35 @@ import Spinner from "../../components/ui/Spinner";
 import Alert from "../../components/ui/Alert";
 
 function EditProfile() {
-  const { user, login } = useContext(AuthContext);
-  const navigate = useNavigate();
+    const { user, login } = useContext(AuthContext);
+    const navigate = useNavigate();
 
-  const [name, setName] = useState(user?.name || "");
-  const [email, setEmail] = useState(user?.email || "");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+    const [name, setName] = useState(user?.name || "");
+    const [email, setEmail] = useState(user?.email || "");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
 
-  function handleSubmit(e) {
-    e.preventDefault();
+    function handleSubmit(e) {
+        e.preventDefault();
 
-    setLoading(true);
-    setError("");
+        setLoading(true);
+        setError("");
 
-    // Check for empty fields
-    if (!name.trim() || !email.trim()) {
-      setError("Please fill in all fields.");
-      setLoading(false);
-      return;
-    }
+        // Check for empty fields
+        if (!name.trim() || !email.trim()) {
+            setError("Please fill in all fields.");
+            setLoading(false);
+            return;
+        }
 
-    // Validate email format
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        // Validate email format
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!emailPattern.test(email)) {
-      setError("Please enter a valid email address.");
-      setLoading(false);
-      return;
-    }
+        if (!emailPattern.test(email)) {
+            setError("Please enter a valid email address.");
+            setLoading(false);
+            return;
+        }
 
     // ====================================================
     // Future backend integration:
@@ -74,7 +74,7 @@ function EditProfile() {
     alert("Profile updated successfully!");
 
     navigate("/profile");
-  }
+}
 
   return (
     <Card>
