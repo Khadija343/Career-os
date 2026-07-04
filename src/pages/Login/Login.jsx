@@ -10,6 +10,7 @@ import Input from "../../components/ui/Input";
 import Button from "../../components/ui/Button";
 import PageTitle from "../../components/common/PageTitle";
 import Spinner from "../../components/ui/Spinner";
+import Alert from "../../components/ui/Alert";
 
 function Login() {
   const navigate = useNavigate();
@@ -27,9 +28,14 @@ function Login() {
     setLoading(true);
 
     if (!email || !password) {
-    setError("Please enter email and password.");
-    setLoading(false);
-    return;
+      const emailPattern =
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!emailPattern.test(email)) {
+        setError("Please enter a valid email address.");
+        setLoading(false);
+        return;
+      }
     }
 
     try {
@@ -64,16 +70,7 @@ function Login() {
     <Card>
       <PageTitle title="Login" />
       
-      {error && (
-        <p
-          style={{
-            color: "red",
-            marginBottom: "15px",
-          }}
-        >
-          {error}
-        </p>
-      )}
+      <Alert message={error} />
 
       <form onSubmit={handleSubmit}>
         <Input
