@@ -9,22 +9,33 @@ import Card from "../../components/ui/Card";
 
 function Profile() {
   const { user } = useContext(AuthContext);
+
+    if (!user) {
+        return (
+            <Card>
+            <PageTitle title="My Profile" />
+
+            <p>No user information available.</p>
+            </Card>
+        );
+    }
+
   useEffect(() => {
     // Future:
     // const response = await getProfile();
+    // login(response.data.user, token);
     }, []); //dependency array: Run only once, when the component first loads.
 
   return (
     <Card>
         <PageTitle title="My Profile" />
 
-        <p>
-            <strong>Name:</strong> {user?.name}
+        <p style={{ marginBottom: "10px" }}>
+            <strong>Name:</strong> {user.name}
         </p>
 
-        <p>
-            <strong>Email:</strong> {user?.email} 
-            {/* "If user exists, show name; otherwise, show nothing." */}
+        <p style={{ marginBottom: "20px" }}>
+            <strong>Email:</strong> {user.email}
         </p>
 
         <Link to="/profile/edit">
