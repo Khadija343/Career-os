@@ -1,6 +1,6 @@
 function Logo() {
   return (
-    <h1>Career OS</h1>
+    <h1>Career OS Logo</h1>
   );
 }
 

@@ -1,7 +1,6 @@
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
-import { Link, useNavigate } from "react-router-dom";
-import { ROUTES } from "../utils/constants";
+import Footer from "./Footer";
 
 function DashboardLayout({ children }) {
   return (
@@ -15,6 +14,8 @@ function DashboardLayout({ children }) {
           {children}
         </main>
       </div>
+
+      <Footer />
     </>
   );
 }

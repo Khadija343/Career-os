@@ -2,7 +2,7 @@
 // Uncomment when the backend is connected.
 
 import { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { isValidEmail } from "../../utils/validation";
 import { ROUTES } from "../../utils/constants";
@@ -57,8 +57,11 @@ function Login() {
           },
         },
       };
+      // const response = await loginUser({
+      //   email,
+      //   password,
+      // });
 
-      // TODO: Replace dummy login with loginUser() when backend is connected.
 
       if (response.data.success) {
         login(
@@ -114,6 +117,24 @@ function Login() {
           disabled={loading}
         />
       </form>
+
+      <br />
+
+      <Link to={ROUTES.FORGOT_PASSWORD}>
+        Forgot Password?
+      </Link>
+
+      <br />
+      <br />
+
+      <p>
+        Don't have an account?
+      </p>
+
+      <Link to={ROUTES.SIGNUP}>
+        Sign Up
+      </Link>
+
     </Card>
   );
 }

@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import ProtectedRoute from "./ProtectedRoute";
+import { ROUTES } from "../utils/constants";
 
 import EditProfile from "../pages/Profile/EditProfile";
 import Profile from "../pages/Profile/Profile";
@@ -10,46 +11,59 @@ import Signup from "../pages/Signup/Signup";
 import ForgotPassword from "../pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "../pages/ResetPassword/ResetPassword";
 import Dashboard from "../pages/Dashboard/Dashboard";
+import DashboardLayout from "../layouts/DashboardLayout";
 
 function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Landing />} />
+        <Route path={ROUTES.HOME} element={<Landing />} />
 
-        <Route path="/login" element={<Login />} />
+        <Route path={ROUTES.LOGIN} element={<Login />} />
 
-        <Route path="/signup" element={<Signup />} />
+        <Route path={ROUTES.SIGNUP} element={<Signup />} />
 
         <Route
-          path="/forgot-password"
+          path={ROUTES.FORGOT_PASSWORD}
           element={<ForgotPassword />}
         />
 
         <Route
-          path="/reset-password"
+          path={ROUTES.RESET_PASSWORD}
           element={<ResetPassword />}
         />
 
         <Route
-          path="/dashboard"
+          path={ROUTES.DASHBOARD}
           element={
-            //React Router,Instead of rendering <Dashboard /> immediately, 
-            // it first renders: ProtectedRoute
             <ProtectedRoute>
-              <Dashboard />
+              <DashboardLayout>
+                <Dashboard />
+              </DashboardLayout>
             </ProtectedRoute>
           }
         />
 
         <Route
-          path="/profile"
-          element={<Profile />}
+          path={ROUTES.PROFILE}
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <Profile />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
         />
 
         <Route
-          path="/profile/edit"
-          element={<EditProfile />}
+          path={ROUTES.EDIT_PROFILE}
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <EditProfile />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
         />
       </Routes>
 

@@ -12,8 +12,20 @@ function AuthProvider({ children }) {
   );
 
   function login(userData, tokenData) {
+    console.log("✅ LOGIN FUNCTION CALLED");
+
     localStorage.setItem("user", JSON.stringify(userData));
     localStorage.setItem("token", tokenData);
+
+    console.log(
+      "User in localStorage:",
+      localStorage.getItem("user")
+    );
+
+    console.log(
+      "Token in localStorage:",
+      localStorage.getItem("token")
+    );
 
     setUser(userData);
     setToken(tokenData);

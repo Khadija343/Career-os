@@ -1,7 +1,9 @@
+const today = new Date();
+
 function Footer() {
   return (
     <footer>
-      <p>© 2026 Career OS</p>
+      © {today.getFullYear()} Career OS
     </footer>
   );
 }

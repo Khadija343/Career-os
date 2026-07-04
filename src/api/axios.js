@@ -1,7 +1,9 @@
 import axios from "axios";
+import { ROUTES } from "../utils/constants";
 
 const api = axios.create({
-  baseURL: "http://localhost:5000/api/v1",
+  baseURL: import.meta.env.VITE_API_BASE_URL,
+
 });
 
 // Request Interceptor
@@ -30,10 +32,11 @@ api.interceptors.response.use(
       localStorage.removeItem("token");
       localStorage.removeItem("user");
 
-      window.location.href = "/login"; //Force the application back to the Login page
+      window.location.href = ROUTES.LOGIN; //Force the application back to the Login page
     }
 
     return Promise.reject(error);
+    
   }
 );
 

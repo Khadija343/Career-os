@@ -14,6 +14,12 @@ function Profile() {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
+    useEffect(() => {
+    // Future:
+    // const response = await getProfile();
+    // login(response.data.user, token);
+    }, []); //dependency array: Run only once, when the component first loads.
+
     if (!user) {
         return (
             <Card>
@@ -23,12 +29,6 @@ function Profile() {
             </Card>
         );
     }
-
-  useEffect(() => {
-    // Future:
-    // const response = await getProfile();
-    // login(response.data.user, token);
-    }, []); //dependency array: Run only once, when the component first loads.
 
   return (
     <Card>
