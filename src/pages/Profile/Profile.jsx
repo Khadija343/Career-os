@@ -1,14 +1,18 @@
 import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 import { AuthContext } from "../../context/AuthContext";
 
-import { Link } from "react-router-dom";
 import Button from "../../components/ui/Button";
+import { ROUTES } from "../../utils/constants";
 
 import PageTitle from "../../components/common/PageTitle";
 import Card from "../../components/ui/Card";
 
 function Profile() {
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
     if (!user) {
         return (
@@ -38,9 +42,16 @@ function Profile() {
             <strong>Email:</strong> {user.email}
         </p>
 
-        <Link to="/profile/edit">
+        <Link to={ROUTES.EDIT_PROFILE}>
             <Button text="Edit Profile" />
         </Link>
+
+        <br />
+
+        <Button
+          text="Back to Dashboard"
+          onClick={() => navigate(ROUTES.DASHBOARD)}
+        />
     </Card>
   );
 }

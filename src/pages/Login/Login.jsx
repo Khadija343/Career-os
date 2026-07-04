@@ -37,17 +37,15 @@ function Login() {
       return;
     }
 
-    if (!isValidEmail(email)) { {
+    if (!isValidEmail(email)) { 
       setError("Please enter a valid email address.");
       setLoading(false);
       return;
     }
 
     try {
-      // ====================================================
-      // Temporary dummy login
-      // Replace this block when backend is connected
-      // ====================================================
+      // Temporary dummy login.
+      // TODO: Replace with loginUser() when backend is connected.
 
       const response = {
         data: {

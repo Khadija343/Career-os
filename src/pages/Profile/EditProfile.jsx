@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { isValidEmail } from "../../utils/validation";
+import { ROUTES } from "../../utils/constants";
 import { AuthContext } from "../../context/AuthContext";
 // import { updateProfile } from "../../api/authService";
 // Uncomment when the backend is ready.
@@ -37,13 +38,12 @@ function EditProfile() {
             return;
         }
 
-        if (!isValidEmail(email)) { {
+        if (!isValidEmail(email)) { 
             setError("Please enter a valid email address.");
             setLoading(false);
             return;
         }
 
-    // ====================================================
     // Future backend integration:
     //
     // const response = await updateProfile({
@@ -55,7 +55,6 @@ function EditProfile() {
     //   response.data.user,
     //   localStorage.getItem("token")
     // );
-    // ====================================================
 
     // Temporary frontend update
     const updatedUser = {
@@ -74,7 +73,7 @@ function EditProfile() {
     setSuccess("Profile updated successfully!");
 
     setTimeout(() => {
-        navigate("/profile");
+        navigate(ROUTES.PROFILE);
     }, 1500);
 }
 
@@ -116,6 +115,13 @@ function EditProfile() {
           text={loading ? "Saving..." : "Save Changes"}
           type="submit"
           disabled={loading}
+        />
+
+        <br />
+
+        <Button
+          text="Back to Profile"
+          onClick={() => navigate(ROUTES.PROFILE)}
         />
       </form>
     </Card>
