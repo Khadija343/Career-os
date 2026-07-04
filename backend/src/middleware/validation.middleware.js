@@ -1,11 +1,11 @@
 import { ZodError } from "zod";
 import ApiError from "../utils/ApiError.js";
 
-const validate = (schema) => {
+const validate = (schema, source = "body") => {
     return async (req, res, next) => {
         try {
 
-            req.body = await schema.parseAsync(req.body);
+            req[source] = await schema.parseAsync(req[source]);
 
             next();
 

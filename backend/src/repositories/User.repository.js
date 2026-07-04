@@ -98,6 +98,23 @@ class UserRepository {
 
     }
 
+    /**
+     * Mark Profile Completed
+     */
+    async markProfileCompleted(userId) {
+
+        return await User.findByIdAndUpdate(
+            userId,
+            {
+                profileCompleted: true,
+            },
+            {
+                new: true,
+            }
+        );
+
+    }
+
 }
 
 export default new UserRepository();

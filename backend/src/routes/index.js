@@ -1,7 +1,7 @@
 import express from "express";
 
 import authRoutes from "./auth.routes.js";
-// import resumeRoutes from "./resume.routes.js";
+import resumeRoutes from "./resume.routes.js";
 // import githubRoutes from "./github.routes.js";
 // import dashboardRoutes from "./dashboard.routes.js";
 // import aiRoutes from "./ai.routes.js";
@@ -22,7 +22,7 @@ router.use("/auth", authRoutes);
 |--------------------------------------------------------------------------
 */
 
-// router.use("/resume", resumeRoutes);
+router.use("/resume", resumeRoutes);
 
 /*
 |--------------------------------------------------------------------------
