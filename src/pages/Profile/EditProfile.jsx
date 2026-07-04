@@ -20,12 +20,14 @@ function EditProfile() {
     const [email, setEmail] = useState(user?.email || "");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
 
     function handleSubmit(e) {
         e.preventDefault();
 
         setLoading(true);
         setError("");
+        setSuccess("");
 
         // Check for empty fields
         if (!name.trim() || !email.trim()) {
@@ -71,18 +73,24 @@ function EditProfile() {
 
     setLoading(false);
 
-    alert("Profile updated successfully!");
+    setSuccess("Profile updated successfully!");
 
-    navigate("/profile");
+    setTimeout(() => {
+        navigate("/profile");
+    }, 1500);
 }
 
   return (
     <Card>
-      <PageTitle title="Edit Profile" />
+        <PageTitle title="Edit Profile" />
 
-      <Alert message={error} />
+        <Alert message={error} />
+        <Alert
+            message={success}
+            type="success"
+        />
 
-      <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
         <Input
           placeholder="Name"
           value={name}

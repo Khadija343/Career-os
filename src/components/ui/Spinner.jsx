@@ -1,12 +1,14 @@
 function Spinner() {
   return (
-    <p>Loading...</p>
+    <div
+      style={{
+        margin: "15px 0",
+        fontWeight: "bold",
+      }}
+    >
+      Loading...
+    </div>
   );
 }
 
 export default Spinner;
-
-
-// function Spinner() {
-//   return <div className="spinner"></div>;
-// }
