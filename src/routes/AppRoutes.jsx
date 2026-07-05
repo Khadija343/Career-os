@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import ProtectedRoute from "./ProtectedRoute";
+import PublicRoute from "./PublicRoute";
 import { ROUTES } from "../utils/constants";
 
 import EditProfile from "../pages/Profile/EditProfile";
@@ -19,18 +20,40 @@ function AppRoutes() {
       <Routes>
         <Route path={ROUTES.HOME} element={<Landing />} />
 
-        <Route path={ROUTES.LOGIN} element={<Login />} />
+        <Route
+          path={ROUTES.LOGIN}
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
+        />
 
-        <Route path={ROUTES.SIGNUP} element={<Signup />} />
+        <Route
+          path={ROUTES.SIGNUP}
+          element={
+            <PublicRoute>
+              <Signup />
+            </PublicRoute>
+          }
+        />
 
         <Route
           path={ROUTES.FORGOT_PASSWORD}
-          element={<ForgotPassword />}
+          element={
+            <PublicRoute>
+              <ForgotPassword />
+            </PublicRoute>
+          }
         />
 
         <Route
           path={ROUTES.RESET_PASSWORD}
-          element={<ResetPassword />}
+          element={
+            <PublicRoute>
+              <ResetPassword />
+            </PublicRoute>
+          }
         />
 
         <Route

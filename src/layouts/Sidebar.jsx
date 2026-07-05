@@ -9,9 +9,11 @@ import {
   MicVocal,
   FolderKanban,
   Settings,
+  X,
 } from "lucide-react";
 
 import { ROUTES } from "../utils/constants";
+import Logo from "../components/common/Logo";
 
 const NAV_ITEMS = [
   { label: "Dashboard", to: ROUTES.DASHBOARD, icon: LayoutDashboard },
@@ -33,6 +35,21 @@ function Sidebar({ isOpen = false, onClose }) {
 
   const content = (
     <aside className="flex h-full w-64 flex-col gap-6 border-r border-white/5 bg-card p-4">
+      
+      {onClose && (
+        <div className="mb-4 flex items-center justify-between lg:hidden">
+          <Logo />
+
+          <button
+            onClick={onClose}
+            className="rounded-lg p-2 text-white/60 transition hover:bg-white/5 hover:text-white"
+            aria-label="Close sidebar"
+          >
+            <X size={20} />
+          </button>
+        </div>
+      )}
+      
       <ul className="flex flex-col gap-1">
         {NAV_ITEMS.map(({ label, to, icon: Icon }) => {
           const isActive = location.pathname === to;
@@ -81,15 +98,26 @@ function Sidebar({ isOpen = false, onClose }) {
       <div className="hidden lg:block">{content}</div>
 
       {/* Mobile: drawer */}
-      {isOpen && (
-        <div className="fixed inset-0 z-40 lg:hidden">
-          <div
-            className="absolute inset-0 bg-background/70 backdrop-blur-sm"
-            onClick={onClose}
-          />
-          <div className="relative z-10 h-full">{content}</div>
+      <div
+        className={`fixed inset-0 z-40 lg:hidden transition-opacity duration-300 ${
+          isOpen
+            ? "pointer-events-auto opacity-100"
+            : "pointer-events-none opacity-0"
+        }`}
+      >
+        <div
+          className="absolute inset-0 bg-background/70 backdrop-blur-sm"
+          onClick={onClose}
+        />
+
+        <div
+          className={`relative z-10 h-full transform transition-transform duration-300 ease-in-out ${
+            isOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
+          {content}
         </div>
-      )}
+      </div>
     </>
   );
 }

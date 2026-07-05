@@ -65,7 +65,7 @@ function Landing() {
           </span>
 
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-            Career <span className="text-primary">OS</span>
+            Career <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">OS</span>
           </h1>
 
           <p className="mt-6 max-w-2xl text-base leading-relaxed text-white/60 sm:text-lg">
