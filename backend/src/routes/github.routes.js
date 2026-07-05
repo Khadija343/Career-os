@@ -46,4 +46,11 @@ router.get(
     githubController.getRepositories
 );
 
+// Get GitHub Analytics for Logged-in User
+
+router.get(
+    "/analytics",
+    githubController.getAnalytics
+);
+
 export default router;

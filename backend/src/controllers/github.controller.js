@@ -93,6 +93,28 @@ class GithubController {
 
     });
 
+    /**
+     * Get GitHub Analytics for Logged-in User
+     */
+    getAnalytics = asyncHandler(async (req, res) => {
+
+        const result =
+            await githubService.getGithubAnalytics(
+                req.user.id
+            );
+
+        return res.status(200).json(
+
+            new ApiResponse(
+                200,
+                result,
+                "GitHub analytics fetched successfully."
+            )
+
+        );
+
+    });
+
 }
 
 export default new GithubController();

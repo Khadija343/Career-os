@@ -2,6 +2,7 @@ import githubProfileRepository from "../repositories/GithubProfile.repository.js
 import githubRepositoryRepository from "../repositories/GithubRepository.repository.js";
 import ApiError from "../utils/ApiError.js";
 import { fetchGithubUser, fetchGithubRepos } from "../helpers/githubApi.helper.js";
+import { buildGithubAnalytics } from "../helpers/githubAnalytics.helper.js";
 
 class GithubService {
 
@@ -263,6 +264,31 @@ class GithubService {
         const repositories = await githubRepositoryRepository.findAllByUser(userId);
 
         return repositories.map((repo) => this.sanitizeRepository(repo));
+
+    }
+
+    /**
+     * Get GitHub Analytics for Logged-in User
+     *
+     * Computed entirely from repositories already stored in MongoDB —
+     * never calls the GitHub API. A connected profile with zero synced
+     * repositories is a valid state and yields zeroed-out analytics
+     * rather than an error.
+     */
+    async getGithubAnalytics(userId) {
+
+        const profile = await githubProfileRepository.findByUser(userId);
+
+        if (!profile) {
+
+            throw new ApiError(404, "No GitHub account connected yet.");
+
+        }
+
+        const repositories = await githubRepositoryRepository.findAllByUser(userId);
+        const plainRepos = repositories.map((repo) => repo.toObject());
+
+        return buildGithubAnalytics(plainRepos);
 
     }
 
