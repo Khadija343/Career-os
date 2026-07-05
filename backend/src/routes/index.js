@@ -2,8 +2,8 @@ import express from "express";
 
 import authRoutes from "./auth.routes.js";
 import resumeRoutes from "./resume.routes.js";
+import dashboardRoutes from "./dashboard.routes.js";
 // import githubRoutes from "./github.routes.js";
-// import dashboardRoutes from "./dashboard.routes.js";
 // import aiRoutes from "./ai.routes.js";
 
 const router = express.Router();
@@ -30,7 +30,7 @@ router.use("/resume", resumeRoutes);
 |--------------------------------------------------------------------------
 */
 
-// router.use("/dashboard", dashboardRoutes);
+router.use("/dashboard", dashboardRoutes);
 
 /*
 |--------------------------------------------------------------------------

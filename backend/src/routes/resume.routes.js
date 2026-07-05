@@ -22,13 +22,10 @@ router.use(authMiddleware);
 
 router.post(
     "/upload",
-    (req, res, next) => {
-        console.log("✅ UPLOAD ROUTE HIT");
-        next();
-    },
     uploadResumeFile,
     resumeController.uploadResume
 );
+
 // Get All Resumes for Logged-in User
 
 router.get(
