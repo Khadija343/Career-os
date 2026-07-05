@@ -49,6 +49,50 @@ class GithubController {
 
     });
 
+    /**
+     * Sync GitHub Repositories
+     */
+    syncRepositories = asyncHandler(async (req, res) => {
+
+        const result =
+            await githubService.syncRepositories(
+                req.user.id
+            );
+
+        return res.status(200).json(
+
+            new ApiResponse(
+                200,
+                result,
+                "GitHub repositories synced successfully."
+            )
+
+        );
+
+    });
+
+    /**
+     * Get Synced Repositories for Logged-in User
+     */
+    getRepositories = asyncHandler(async (req, res) => {
+
+        const result =
+            await githubService.getRepositories(
+                req.user.id
+            );
+
+        return res.status(200).json(
+
+            new ApiResponse(
+                200,
+                result,
+                "GitHub repositories fetched successfully."
+            )
+
+        );
+
+    });
+
 }
 
 export default new GithubController();

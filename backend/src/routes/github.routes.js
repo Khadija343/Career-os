@@ -32,4 +32,18 @@ router.get(
     githubController.getProfile
 );
 
+// Sync GitHub Repositories
+
+router.post(
+    "/sync",
+    githubController.syncRepositories
+);
+
+// Get Synced Repositories for Logged-in User
+
+router.get(
+    "/repositories",
+    githubController.getRepositories
+);
+
 export default router;
