@@ -8,3 +8,8 @@ export default defineConfig({
     tailwindcss(),
   ],
 })
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [react()],
+})
