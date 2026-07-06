@@ -1,13 +1,14 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:5000/api/v1", // backend later connect hoga
+  baseURL:
+    import.meta.env.VITE_API_URL || "http://localhost:5000/api/v1",
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// 🔐 Request Interceptor (auto token attach)
+// 🔐 Request Interceptor (Auto attach token)
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
@@ -18,12 +19,10 @@ api.interceptors.request.use(
 
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
-// ❌ Response interceptor (global error handling)
+// ❌ Response Interceptor (Global error handling)
 api.interceptors.response.use(
   (response) => response,
   (error) => {
