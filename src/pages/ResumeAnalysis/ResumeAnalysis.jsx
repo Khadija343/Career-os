@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import ScoreCard from "../../components/resume/ScoreCard";
 import AnalysisCard from "../../components/resume/AnalysisCard";
 import KeywordTag from "../../components/resume/KeywordTag";
@@ -5,58 +7,92 @@ import SuggestionCard from "../../components/resume/SuggestionCard";
 import UploadResumeCard from "../../components/resume/UploadResumeCard";
 
 function ResumeAnalysis() {
+  const [analysis, setAnalysis] = useState(null);
+
+  // Upload success handler (backend response yahan aayega)
+  const handleUploadSuccess = (response) => {
+    setAnalysis(response);
+  };
+
+  // 🔴 EMPTY STATE
+  if (!analysis) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-8 text-gray-600">
+        <h2 className="text-2xl font-bold mb-4">
+          📄 Resume Analysis
+        </h2>
+
+        <p className="mb-6">
+          Upload your resume to start analysis
+        </p>
+
+        <UploadResumeCard onUploadSuccess={handleUploadSuccess} />
+      </div>
+    );
+  }
+
+  // 🔵 MAIN UI
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <h1 className="text-4xl font-bold mb-8">
         📄 Resume Analysis
       </h1>
 
-      {/* Score Cards */}
+      {/* SCORE CARDS */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <ScoreCard title="Resume Score" score="92%" />
-        <ScoreCard title="ATS Score" score="88%" />
+        <ScoreCard
+          title="Resume Score"
+          score={`${analysis?.resumeScore || 0}%`}
+        />
+
+        <ScoreCard
+          title="ATS Score"
+          score={`${analysis?.atsScore || 0}%`}
+        />
       </div>
 
-      {/* Analysis */}
+      {/* STRENGTHS / WEAKNESSES */}
       <div className="mt-8">
         <AnalysisCard
           title="Strengths"
           type="success"
-          items={["React", "Tailwind CSS", "JavaScript", "Git"]}
+          items={analysis?.strengths || []}
         />
 
         <AnalysisCard
           title="Weaknesses"
           type="danger"
-          items={["Docker", "Kubernetes", "CI/CD"]}
+          items={analysis?.weaknesses || []}
         />
       </div>
 
-      {/* Keywords */}
+      {/* KEYWORDS */}
       <div className="mt-8">
         <h2 className="text-2xl font-bold mb-4">
           Matched Keywords
         </h2>
 
         <div className="flex flex-wrap gap-3">
-          <KeywordTag keyword="React" matched />
-          <KeywordTag keyword="JavaScript" matched />
-          <KeywordTag keyword="Tailwind" matched />
-          <KeywordTag keyword="Node.js" matched />
-          <KeywordTag keyword="Docker" matched={false} />
+          {(analysis?.keywords || []).map((item, index) => (
+            <KeywordTag
+              key={index}
+              keyword={item.name}
+              matched={item.matched}
+            />
+          ))}
         </div>
       </div>
 
-      {/* Suggestions */}
+      {/* SUGGESTIONS */}
       <div className="mt-8">
-        <SuggestionCard suggestion="Add measurable achievements." />
-        <SuggestionCard suggestion="Improve resume summary." />
-        <SuggestionCard suggestion="Include more project achievements with measurable results." />
+        {(analysis?.suggestions || []).map((s, index) => (
+          <SuggestionCard key={index} suggestion={s} />
+        ))}
       </div>
 
-      {/* Upload Resume */}
+      {/* UPLOAD AGAIN */}
       <div className="mt-8">
-        <UploadResumeCard />
+        <UploadResumeCard onUploadSuccess={handleUploadSuccess} />
       </div>
     </div>
   );
