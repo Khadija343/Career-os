@@ -1,6 +1,6 @@
 import ApiError from "../utils/ApiError.js";
 
-const REQUEST_TIMEOUT_MS = 15000;
+const REQUEST_TIMEOUT_MS = 60000;
 
 /**
  * POST a JSON payload to the FastAPI AI Service and return its parsed
