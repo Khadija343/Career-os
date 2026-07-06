@@ -34,6 +34,13 @@ class Settings(BaseSettings):
     # (e.g. the Node backend and/or the frontend dev server).
     ALLOWED_ORIGINS: str = "http://localhost:5173,http://localhost:5000"
 
+    # --- Gemini AI ---------------------------------------------------------
+    # Required for Milestone 2 (Resume Analysis). Left unset in other
+    # environments (e.g. Phase 1 tests) simply disables that feature with
+    # a clean 503, rather than crashing the whole service on startup.
+    GEMINI_API_KEY: str | None = None
+    GEMINI_MODEL: str = "gemini-2.5-flash"
+
     @property
     def allowed_origins_list(self) -> list[str]:
         return [origin.strip() for origin in self.ALLOWED_ORIGINS.split(",") if origin.strip()]

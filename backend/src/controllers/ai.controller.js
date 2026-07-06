@@ -11,7 +11,8 @@ class AiController {
 
         const result =
             await aiService.analyzeResume(
-                req.user.id
+                req.user.id,
+                req.body
             );
 
         return res.status(200).json(

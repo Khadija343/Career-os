@@ -67,11 +67,14 @@ class AiService {
      * is only to assemble the context, call the service, and forward
      * whatever comes back.
      */
-    async analyzeResume(userId) {
+    async analyzeResume(userId, requestBody = {}) {
 
         const context = await this.buildUserContext(userId);
 
-        return await aiClient.analyzeResume(context);
+        return await aiClient.analyzeResume({
+            ...context,
+            ...requestBody,
+        });
 
     }
 
