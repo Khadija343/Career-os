@@ -4,7 +4,7 @@ import authRoutes from "./auth.routes.js";
 import resumeRoutes from "./resume.routes.js";
 import dashboardRoutes from "./dashboard.routes.js";
 import githubRoutes from "./github.routes.js";
-// import aiRoutes from "./ai.routes.js";
+import aiRoutes from "./ai.routes.js";
 
 const router = express.Router();
 
@@ -46,6 +46,6 @@ router.use("/github", githubRoutes);
 |--------------------------------------------------------------------------
 */
 
-// router.use("/ai", aiRoutes);
+router.use("/ai", aiRoutes);
 
 export default router;

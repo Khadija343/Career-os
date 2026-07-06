@@ -3,10 +3,7 @@ import ApiResponse from "../utils/ApiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
 class AuthController {
-
-    /**
-     * Register User
-     */
+    // Register User
     register = asyncHandler(async (req, res) => {
 
         const result =
