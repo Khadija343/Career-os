@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { analyzeGithub } from "../../services/githubService";
+import { analyzeGithub } from "../../api/githubApi";
 
 function UploadGitHubCard({ onSuccess }) {
   const [username, setUsername] = useState("");
