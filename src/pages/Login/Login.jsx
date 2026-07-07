@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import Card from "../../components/ui/Card";
 import Input from "../../components/ui/Input";
@@ -11,17 +11,17 @@ function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setError("");
 
     if (!email || !password) {
-      alert("Please enter email and password.");
+      setError("Please enter email and password.");
       return;
     }
 
-    // Temporary dummy login
-    // Replace this block with axios later
     const response = {
       data: {
         success: true,
@@ -34,69 +34,32 @@ function Login() {
     };
 
     if (response.data.success) {
-      localStorage.setItem(
-        "token",
-        response.data.token
-      );
-
-      localStorage.setItem(
-        "user",
-        JSON.stringify(response.data.user)
-      );
-
-      //After successful login, take the user to the Dashboard
-      navigate("/dashboard");
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+      navigate("/dashboard", { replace: true });
     }
   }
 
   return (
-    <Card>
-      <PageTitle title="Login" />
+    <Card className="space-y-5">
+      <div className="space-y-2">
+        <PageTitle title="Welcome back" />
+        <p className="text-sm text-slate-400">Sign in to continue your career growth journey.</p>
+      </div>
 
-      <form onSubmit={handleSubmit}>
-        <Input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) =>
-            setEmail(e.target.value)
-          }
-        />
-
-        <br />
-        <br />
-
-        <Input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) =>
-            setPassword(e.target.value)
-          }
-        />
-
-        <br />
-        <br />
-
-        <Button
-          text="Login"
-          type="submit"
-        />
+      <form onSubmit={handleSubmit} className="space-y-4">
+        {error ? <p className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-300">{error}</p> : null}
+        <Input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <Input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <Button text="Login" type="submit" className="w-full" />
       </form>
+
+      <div className="flex items-center justify-between text-sm text-slate-400">
+        <Link to="/forgot-password" className="hover:text-white">Forgot password?</Link>
+        <Link to="/signup" className="hover:text-white">Create account</Link>
+      </div>
     </Card>
   );
 }
 
 export default Login;
-
-// after completing backend, only replace the dummy response inside handleSubmit with an Axios request.
-
-// import axios from "axios";
-
-// const response = await axios.post(
-//   "/api/v1/auth/login",
-//   {
-//     email,
-//     password,
-//   }
-// );

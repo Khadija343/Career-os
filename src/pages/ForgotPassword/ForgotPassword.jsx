@@ -7,17 +7,18 @@ import PageTitle from "../../components/common/PageTitle";
 
 function ForgotPassword() {
   return (
-    <Card>
-      <PageTitle title="Forgot Password" />
+    <Card className="space-y-5">
+      <div className="space-y-2">
+        <PageTitle title="Reset your password" />
+        <p className="text-sm text-slate-400">We’ll help you get back into your account securely.</p>
+      </div>
 
-      <Input
-        type="email"
-        placeholder="Enter your email"
-      />
+      <div className="space-y-4">
+        <Input type="email" placeholder="Enter your email" />
+        <Button text="Send Reset Link" className="w-full" />
+      </div>
 
-      <Button text="Send Reset Link" />
-
-      <Link to="/login">
+      <Link to="/login" className="text-sm text-slate-400 hover:text-white">
         Back to Login
       </Link>
     </Card>

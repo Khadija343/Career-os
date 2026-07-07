@@ -1,6 +1,8 @@
 function PageTitle({ title }) {
   return (
-    <h2>{title}</h2>
+    <h1 className="text-3xl font-extrabold text-white tracking-tight mb-2">
+      {title}
+    </h1>
   );
 }
 

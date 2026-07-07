@@ -1,3 +1,5 @@
+import React from 'react';
+import { useNavigate } from "react-router-dom";
 import {
   Award,
   FileText,
@@ -13,114 +15,109 @@ import WeeklyActivity from "../../components/dashboard/WeeklyActivity";
 import RecommendationSection from "../../components/dashboard/RecommendationSection";
 import GoalsSection from "../../components/dashboard/GoalsSection";
 
-function Dashboard() {
+export default function Dashboard() {
+  const navigate = useNavigate();
+
   const stats = [
     {
+      id: "stat-career",
       title: "Career Score",
       value: "92%",
-      icon: <Award size={32} />,
+      icon: <Award size={24} />, // Adjusted size slightly for better aesthetic proportion
       description: "Excellent Progress",
     },
     {
+      id: "stat-resume",
       title: "Resume Score",
       value: "88%",
-      icon: <FileText size={32} />,
+      icon: <FileText size={24} />,
       description: "ATS Optimized",
     },
     {
+      id: "stat-github",
       title: "GitHub Health",
       value: "81%",
-      icon: <GitBranch size={32} />,
+      icon: <GitBranch size={24} />,
       description: "Good Activity",
     },
     {
+      id: "stat-weekly",
       title: "Weekly Progress",
       value: "76%",
-      icon: <TrendingUp size={32} />,
+      icon: <TrendingUp size={24} />,
       description: "Keep Going!",
     },
   ];
 
+  // Action handlers connecting to the new functional props we built
+  const handleResumeAnalysisClick = () => {
+    console.log("Navigating to detailed resume breakdown view...");
+    // You can replace this with your routing push or modal state toggles
+  };
+
+  const handleCreateAccountClick = () => {
+    navigate("/signup");
+  };
+
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+    <div className="container mx-auto px-4 py-6 space-y-8 max-w-7xl animate-fade-in">
+      
+      {/* 1. Welcome Header section */}
+      <WelcomeBanner name="Muntaha" streakCount={5} />
 
-      <WelcomeBanner />
+      <div className="flex justify-end">
+        <button
+          type="button"
+          onClick={handleCreateAccountClick}
+          className="rounded-full bg-blue-600 px-5 py-2.5 font-semibold text-white shadow-lg transition duration-200 hover:bg-blue-700"
+        >
+          Create Account
+        </button>
+      </div>
 
-      {/* Stat Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
-        {stats.map((stat, index) => (
+      {/* 2. Top-tier Stat Metric Display Matrix */}
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {stats.map((stat) => (
           <StatCard
-            key={index}
+            key={stat.id} // Fixed: String key prevents unnecessary UI layout shifts
             title={stat.title}
             value={stat.value}
             icon={stat.icon}
             description={stat.description}
           />
         ))}
-      </div>
+      </section>
 
-      {/* Analytics + Progress */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-10">
+      {/* 3. Deep Dive Analytics & Dynamic Visual Tracking Elements */}
+      <section className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
+        <div className="lg:col-span-2">
+          <AnalyticsCard
+            title="Resume Analysis"
+            subtitle="Your resume was analyzed today. View detailed AI insights, keyword deficiencies, and direct formatting suggestions to boost visibility."
+            buttonText="View Detailed Analysis"
+            onButtonClick={handleResumeAnalysisClick}
+          />
+        </div>
+        
+        <div className="lg:col-span-1">
+          <ProgressRing
+            percentage={76}
+            label="Weekly Target Progress"
+          />
+        </div>
+      </section>
 
-        <AnalyticsCard
-          title="Resume Analysis"
-          subtitle="Your resume was analyzed today. View detailed AI insights and suggestions."
-          buttonText="View Details"
-        />
-
-        <ProgressRing
-          percentage={76}
-          label="Weekly Progress"
-        />
-
-      </div>
-
-      {/* Weekly Activity */}
-      <div className="mt-10">
+      {/* 4. Core Activity Performance Data Vector */}
+      <section>
         <WeeklyActivity />
-      </div>
+      </section>
 
-      {/* AI Recommendations */}
-      <div className="mt-10">
+      {/* 5. Bottom Layout Splitting: Dynamic AI Suggestions and Interactive Checklists */}
+      <section className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
         <RecommendationSection />
-      </div>
-
-      {/* Goals */}
-      <div className="mt-10">
         <GoalsSection />
-      </div>
-
-import Card from "../../components/ui/Card";
-import PageTitle from "../../components/common/PageTitle";
-
-function Dashboard() {
-  return (
-    <div>
-      <PageTitle title="Dashboard" />
-
-      <p>Welcome back!</p>
-
-      <Card>
-        <h3>Career Score</h3>
-        <p>89</p>
-      </Card>
-
-      <Card>
-        <h3>Resume Score</h3>
-        <p>90</p>
-      </Card>
-
-      <Card>
-        <h3>GitHub Score</h3>
-        <p>83</p>
-      </Card>
-
-      <Card>
-        <h3>Roadmap Progress</h3>
-        <p>54%</p>
-      </Card>
+      </section>
+      
     </div>
   );
 }
-
-export default Dashboard;

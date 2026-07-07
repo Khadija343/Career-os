@@ -17,13 +17,8 @@ function UploadGitHubCard({ onSuccess }) {
 
     try {
       const data = await analyzeGithub(username);
-
-      console.log("GitHub Data:", data);
-
-      // 🔥 VERY IMPORTANT (UI update yahan se hota hai)
       onSuccess(data);
-
-    } catch (err) {
+    } catch {
       setError("Failed to analyze GitHub profile");
     } finally {
       setLoading(false);
@@ -31,31 +26,29 @@ function UploadGitHubCard({ onSuccess }) {
   };
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow-md w-full max-w-md">
-      <h2 className="text-xl font-bold mb-4">
-        GitHub Analysis
-      </h2>
+    <div className="w-full max-w-xl rounded-3xl border border-slate-700/70 bg-slate-900/70 p-6 shadow-2xl shadow-slate-950/40 backdrop-blur-xl">
+      <div className="mb-5">
+        <p className="text-sm font-semibold uppercase tracking-[0.3em] text-blue-400">GitHub Insight</p>
+        <h2 className="mt-2 text-2xl font-semibold text-white">Analyze a developer profile</h2>
+        <p className="mt-2 text-sm text-slate-400">Enter a GitHub handle to review activity, strengths, and project signal.</p>
+      </div>
 
       <input
         type="text"
         placeholder="Enter GitHub username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
-        className="w-full border p-2 rounded"
+        className="w-full rounded-2xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-white outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
       />
 
-      {error && (
-        <p className="text-red-500 text-sm mt-2">
-          {error}
-        </p>
-      )}
+      {error && <p className="mt-3 text-sm text-rose-400">{error}</p>}
 
       <button
         onClick={handleAnalyze}
         disabled={loading}
-        className="mt-4 w-full bg-blue-600 text-white py-2 rounded"
+        className="mt-5 w-full rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 px-4 py-3 font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
       >
-        {loading ? "Analyzing..." : "Analyze"}
+        {loading ? "Analyzing..." : "Analyze Profile"}
       </button>
     </div>
   );

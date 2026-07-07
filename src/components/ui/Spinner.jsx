@@ -1,12 +1,9 @@
-function Spinner() {
+function Spinner({ size = "h-8 w-8", color = "border-blue-500" }) {
   return (
-    <p>Loading...</p>
+    <div className="flex justify-center items-center">
+      <div className={`animate-spin rounded-full border-4 border-slate-700 border-t-transparent ${size} ${color}`}></div>
+    </div>
   );
 }
 
 export default Spinner;
-
-
-// function Spinner() {
-//   return <div className="spinner"></div>;
-// }

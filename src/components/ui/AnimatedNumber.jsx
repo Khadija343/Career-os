@@ -5,7 +5,8 @@ function AnimatedNumber({ value = 0, duration = 1000 }) {
 
   useEffect(() => {
     let start = 0;
-    const increment = value / (duration / 20);
+    const frameDuration = 20;
+    const increment = value / (duration / frameDuration);
 
     const timer = setInterval(() => {
       start += increment;
@@ -16,10 +17,10 @@ function AnimatedNumber({ value = 0, duration = 1000 }) {
       }
 
       setDisplayValue(Math.round(start));
-    }, 20);
+    }, frameDuration);
 
     return () => clearInterval(timer);
-  }, [value]);
+  }, [value, duration]);
 
   return <span>{displayValue}</span>;
 }
