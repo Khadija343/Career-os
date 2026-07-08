@@ -17,8 +17,8 @@ function ResumeAnalysis() {
   // 🔴 EMPTY STATE
   if (!analysis) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-8 text-gray-600">
-        <h2 className="text-2xl font-bold mb-4">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-background px-6 py-8 lg:px-8 lg:py-12 text-white/60">
+        <h2 className="text-2xl font-bold mb-4 text-white">
           📄 Resume Analysis
         </h2>
 
@@ -33,8 +33,9 @@ function ResumeAnalysis() {
 
   // 🔵 MAIN UI
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <h1 className="text-4xl font-bold mb-8">
+    <div className="min-h-screen bg-background">
+    <div className="mx-auto max-w-7xl px-6 py-8 lg:px-8 lg:py-12">
+      <h1 className="text-4xl font-bold mb-8 text-white">
         📄 Resume Analysis
       </h1>
 
@@ -68,7 +69,7 @@ function ResumeAnalysis() {
 
       {/* KEYWORDS */}
       <div className="mt-8">
-        <h2 className="text-2xl font-bold mb-4">
+        <h2 className="text-2xl font-bold mb-4 text-white">
           Matched Keywords
         </h2>
 
@@ -94,6 +95,7 @@ function ResumeAnalysis() {
       <div className="mt-8">
         <UploadResumeCard onUploadSuccess={handleUploadSuccess} />
       </div>
+    </div>
     </div>
   );
 }

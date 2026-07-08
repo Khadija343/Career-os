@@ -5,7 +5,8 @@ import UploadResume from "../../components/profile/UploadResume";
 
 function Profile() {
   return (
-    <div className="max-w-4xl mx-auto p-8">
+    <div className="min-h-screen bg-background">
+    <div className="mx-auto max-w-4xl px-6 py-8 lg:px-8 lg:py-12">
 
       <ProfileCard
   name="Muntaha Mano"
@@ -51,6 +52,7 @@ function Profile() {
         <UploadResume />
       </div>
 
+    </div>
     </div>
   );
 }

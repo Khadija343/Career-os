@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-import GitHubStatCard from "../../components/github/GitHubStatCard";
 import ScoreCard from "../../components/resume/ScoreCard";
 import AnalysisCard from "../../components/resume/AnalysisCard";
 import KeywordTag from "../../components/resume/KeywordTag";
@@ -16,8 +15,8 @@ function GitHubAnalysis() {
 
  if (!analysis) {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-8 text-gray-600">
-      <h2 className="text-2xl font-bold mb-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-background px-6 py-8 lg:px-8 lg:py-12 text-white/60">
+      <h2 className="text-2xl font-bold mb-4 text-white">
         💻 GitHub Analysis
       </h2>
 
@@ -32,8 +31,9 @@ function GitHubAnalysis() {
 }
   // 🔵 MAIN UI
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <h1 className="text-4xl font-bold mb-8">
+    <div className="min-h-screen bg-background">
+    <div className="mx-auto max-w-7xl px-6 py-8 lg:px-8 lg:py-12">
+      <h1 className="text-4xl font-bold mb-8 text-white">
         💻 GitHub Analysis
       </h1>
 
@@ -67,7 +67,7 @@ function GitHubAnalysis() {
 
       {/* LANGUAGES */}
       <div className="mt-8">
-        <h2 className="text-2xl font-bold mb-4">
+        <h2 className="text-2xl font-bold mb-4 text-white">
           Top Languages
         </h2>
 
@@ -84,7 +84,7 @@ function GitHubAnalysis() {
 
       {/* RECENT PROJECTS */}
       <div className="mt-8">
-        <h2 className="text-2xl font-bold mb-4">
+        <h2 className="text-2xl font-bold mb-4 text-white">
           Recent Projects
         </h2>
 
@@ -92,10 +92,10 @@ function GitHubAnalysis() {
           {(analysis?.projects || []).map((p, index) => (
             <div
               key={index}
-              className="bg-white p-4 rounded-lg shadow-sm"
+              className="bg-card border border-white/5 p-4 rounded-lg shadow-sm"
             >
-              <h3 className="font-semibold">{p.name}</h3>
-              <p className="text-sm text-gray-500">
+              <h3 className="font-semibold text-white">{p.name}</h3>
+              <p className="text-sm text-white/50">
                 {p.description}
               </p>
             </div>
@@ -107,6 +107,7 @@ function GitHubAnalysis() {
       <div className="mt-8">
         <UploadGitHubCard onSuccess={handleSuccess} />
       </div>
+    </div>
     </div>
   );
 }

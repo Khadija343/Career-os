@@ -1,54 +1,136 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-import Dashboard from "../pages/Dashboard/Dashboard";
-import Profile from "../pages/Profile/Profile";
-import ResumeAnalysis from "../pages/ResumeAnalysis/ResumeAnalysis";
-import GitHubAnalysis from "../pages/GitHubAnalysis/GitHubAnalysis";
-import Roadmap from "../pages/Roadmap/Roadmap";
-import ProgressTracker from "../pages/ProgressTracker/ProgressTracker";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ProtectedRoute from "./ProtectedRoute";
+import PublicRoute from "./PublicRoute";
+import { ROUTES } from "../utils/constants";
+
+import DashboardLayout from "../layouts/DashboardLayout";
 
 import Landing from "../pages/Landing/Landing";
 import Login from "../pages/Login/Login";
 import Signup from "../pages/Signup/Signup";
 import ForgotPassword from "../pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "../pages/ResetPassword/ResetPassword";
+
 import Dashboard from "../pages/Dashboard/Dashboard";
+import Profile from "../pages/Profile/Profile";
+import ResumeAnalysis from "../pages/ResumeAnalysis/ResumeAnalysis";
+import GitHubAnalysis from "../pages/GitHubAnalysis/GitHubAnalysis";
+import Roadmap from "../pages/Roadmap/Roadmap";
+import ProgressTracker from "../pages/ProgressTracker/ProgressTracker";
 
 function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-<<<<<<< HEAD
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/resume" element={<ResumeAnalysis />} />
-        <Route path="/github" element={<GitHubAnalysis />} />
-        <Route path="/roadmap" element={<Roadmap />} />
-        <Route path="/progress" element={<ProgressTracker />} />
-=======
-        <Route path="/" element={<Landing />} />
-
-        <Route path="/login" element={<Login />} />
-
-        <Route path="/signup" element={<Signup />} />
+        {/* Public Routes */}
+        <Route path={ROUTES.HOME} element={<Landing />} />
 
         <Route
-          path="/forgot-password"
-          element={<ForgotPassword />}
+          path={ROUTES.LOGIN}
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
         />
 
         <Route
-          path="/reset-password"
-          element={<ResetPassword />}
+          path={ROUTES.SIGNUP}
+          element={
+            <PublicRoute>
+              <Signup />
+            </PublicRoute>
+          }
         />
 
         <Route
-          path="/dashboard"
-          element={<Dashboard />}
+          path={ROUTES.FORGOT_PASSWORD}
+          element={
+            <PublicRoute>
+              <ForgotPassword />
+            </PublicRoute>
+          }
         />
->>>>>>> origin/frontend-laiba
+
+        <Route
+          path={ROUTES.RESET_PASSWORD}
+          element={
+            <PublicRoute>
+              <ResetPassword />
+            </PublicRoute>
+          }
+        />
+
+        {/* Protected Dashboard & Application Routes */}
+        <Route
+          path={ROUTES.DASHBOARD}
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <Dashboard />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path={ROUTES.PROFILE}
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <Profile />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path={ROUTES.RESUME}
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <ResumeAnalysis />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path={ROUTES.GITHUB}
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <GitHubAnalysis />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path={ROUTES.ROADMAP}
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <Roadmap />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path={ROUTES.PROGRESS}
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <ProgressTracker />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Unknown Route */}
+        <Route path="*" element={<Navigate to={ROUTES.HOME} replace />} />
       </Routes>
     </BrowserRouter>
   );

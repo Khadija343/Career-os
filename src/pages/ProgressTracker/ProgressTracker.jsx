@@ -5,9 +5,10 @@ import AchievementCard from "../../components/progress/AchievementCard";
 
 function ProgressTracker() {
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+    <div className="min-h-screen bg-background">
+    <div className="mx-auto max-w-7xl px-6 py-8 lg:px-8 lg:py-12">
 
-      <h1 className="text-4xl font-bold mb-8">
+      <h1 className="text-4xl font-bold mb-8 text-white">
         📈 Progress Tracker
       </h1>
 
@@ -22,7 +23,7 @@ function ProgressTracker() {
 
       <div className="mt-10">
 
-        <h2 className="text-2xl font-bold mb-5">
+        <h2 className="text-2xl font-bold mb-5 text-white">
           Weekly Goals
         </h2>
 
@@ -52,7 +53,7 @@ function ProgressTracker() {
 
       <div className="mt-10">
 
-        <h2 className="text-2xl font-bold mb-5">
+        <h2 className="text-2xl font-bold mb-5 text-white">
           Recent Activity
         </h2>
 
@@ -77,7 +78,7 @@ function ProgressTracker() {
 
       <div className="mt-10">
 
-        <h2 className="text-2xl font-bold mb-5">
+        <h2 className="text-2xl font-bold mb-5 text-white">
           Achievements
         </h2>
 
@@ -99,6 +100,7 @@ function ProgressTracker() {
 
       </div>
 
+    </div>
     </div>
   );
 }

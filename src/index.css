@@ -1,4 +1,16 @@
 @import "tailwindcss";
+
+@theme {
+  --color-background: #0f172a;
+  --color-card: #1e293b;
+
+  --color-primary: #6366f1;
+  --color-secondary: #8b5cf6;
+
+  --color-success: #22c55e;
+  --color-danger: #ef4444;
+}
+
 * {
   margin: 0;
   padding: 0;

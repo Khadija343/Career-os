@@ -18,12 +18,10 @@ function UploadGitHubCard({ onSuccess }) {
     try {
       const data = await analyzeGithub(username);
 
-      console.log("GitHub Data:", data);
-
       // 🔥 VERY IMPORTANT (UI update yahan se hota hai)
       onSuccess(data);
 
-    } catch (err) {
+    } catch {
       setError("Failed to analyze GitHub profile");
     } finally {
       setLoading(false);
@@ -31,8 +29,8 @@ function UploadGitHubCard({ onSuccess }) {
   };
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow-md w-full max-w-md">
-      <h2 className="text-xl font-bold mb-4">
+    <div className="bg-card border border-white/5 p-6 rounded-xl shadow-lg shadow-black/20 w-full max-w-md">
+      <h2 className="text-xl font-bold mb-4 text-white">
         GitHub Analysis
       </h2>
 
@@ -41,11 +39,11 @@ function UploadGitHubCard({ onSuccess }) {
         placeholder="Enter GitHub username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
-        className="w-full border p-2 rounded"
+        className="w-full rounded-xl border border-white/10 bg-background px-4 py-2.5 text-sm text-white placeholder:text-white/35 outline-none transition-all duration-200 focus:border-primary/50 focus:ring-2 focus:ring-primary/30"
       />
 
       {error && (
-        <p className="text-red-500 text-sm mt-2">
+        <p className="text-danger text-sm mt-2">
           {error}
         </p>
       )}
@@ -53,7 +51,7 @@ function UploadGitHubCard({ onSuccess }) {
       <button
         onClick={handleAnalyze}
         disabled={loading}
-        className="mt-4 w-full bg-blue-600 text-white py-2 rounded"
+        className="mt-4 w-full bg-primary text-white py-2 rounded-xl hover:bg-primary/90 transition disabled:opacity-50"
       >
         {loading ? "Analyzing..." : "Analyze"}
       </button>

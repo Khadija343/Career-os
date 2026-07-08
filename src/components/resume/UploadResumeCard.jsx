@@ -48,9 +48,9 @@ function UploadResumeCard({ onUploadSuccess }) {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-6">
+    <div className="bg-card border border-white/5 rounded-xl shadow-lg shadow-black/20 p-6">
 
-      <h2 className="text-xl font-bold mb-4">
+      <h2 className="text-xl font-bold mb-4 text-white">
         Upload Resume
       </h2>
 
@@ -58,13 +58,13 @@ function UploadResumeCard({ onUploadSuccess }) {
       <div
         onDrop={handleDrop}
         onDragOver={handleDragOver}
-        className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center"
+        className="border-2 border-dashed border-white/15 rounded-lg p-6 text-center"
       >
-        <p className="text-gray-500">
+        <p className="text-white/50">
           Drag & drop your resume here
         </p>
 
-        <p className="text-sm text-gray-400 mt-1">
+        <p className="text-sm text-white/30 mt-1">
           or choose file below
         </p>
 
@@ -73,20 +73,20 @@ function UploadResumeCard({ onUploadSuccess }) {
           accept=".pdf,.doc,.docx"
           disabled={loading}
           onChange={(e) => setFile(e.target.files[0])}
-          className="mt-3"
+          className="mt-3 text-white/70"
         />
       </div>
 
       {/* Selected file */}
       {file && (
-        <p className="mt-2 text-green-600 text-sm">
+        <p className="mt-2 text-success text-sm">
           Selected: {file.name}
         </p>
       )}
 
       {/* ERROR (NO ALERTS) */}
       {error && (
-        <div className="mt-3 bg-red-100 text-red-600 p-2 rounded">
+        <div className="mt-3 bg-danger/10 text-danger p-2 rounded">
           {error}
         </div>
       )}
@@ -95,10 +95,10 @@ function UploadResumeCard({ onUploadSuccess }) {
       <button
         onClick={() => handleUpload()}
         disabled={loading}
-        className={`mt-4 px-5 py-2 rounded text-white ${
+        className={`mt-4 px-5 py-2 rounded-xl text-white transition ${
           loading
-            ? "bg-gray-400"
-            : "bg-blue-600 hover:bg-blue-700"
+            ? "bg-white/10 cursor-not-allowed"
+            : "bg-primary hover:bg-primary/90"
         }`}
       >
         {loading ? "Uploading..." : "Upload Resume"}
@@ -106,8 +106,8 @@ function UploadResumeCard({ onUploadSuccess }) {
 
       {/* LOADING BAR */}
       {loading && (
-        <div className="mt-4 w-full bg-gray-200 h-2 rounded">
-          <div className="h-2 bg-blue-500 animate-pulse w-full rounded"></div>
+        <div className="mt-4 w-full bg-white/10 h-2 rounded">
+          <div className="h-2 bg-primary animate-pulse w-full rounded"></div>
         </div>
       )}
     </div>

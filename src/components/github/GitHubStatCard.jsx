@@ -1,12 +1,12 @@
 function GitHubStatCard({ title, value, icon, color }) {
   return (
     <div
-      className={`rounded-3xl p-6 shadow-lg text-white hover:scale-105 transition duration-300 ${color}`}
+      className={`rounded-3xl p-6 shadow-lg shadow-black/20 text-white hover:scale-105 transition duration-300 ${color}`}
     >
       <div className="flex justify-between items-center">
 
         <div>
-          <h3 className="text-lg">{title}</h3>
+          <h3 className="text-lg text-white/80">{title}</h3>
 
           <h2 className="text-4xl font-bold mt-3">
             {value}

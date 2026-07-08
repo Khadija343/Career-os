@@ -38,8 +38,9 @@ function Roadmap() {
   // Empty State
   if (!roadmapData && !loading && !error) {
     return (
-      <div className="min-h-screen bg-gray-100 p-8">
-        <h1 className="text-4xl font-bold mb-8">
+      <div className="min-h-screen bg-background">
+      <div className="mx-auto max-w-7xl px-6 py-8 lg:px-8 lg:py-12">
+        <h1 className="text-4xl font-bold mb-8 text-white">
           🗺️ AI Career Roadmap
         </h1>
 
@@ -49,23 +50,24 @@ function Roadmap() {
             placeholder="Enter Career Role (e.g. Frontend Developer)"
             value={role}
             onChange={(e) => setRole(e.target.value)}
-            className="flex-1 border border-gray-300 rounded-lg px-4 py-3"
+            className="flex-1 rounded-xl border border-white/10 bg-card px-4 py-3 text-white placeholder:text-white/35 outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/30"
           />
 
           <button
             onClick={handleGenerate}
             disabled={loading}
-            className="px-6 py-3 rounded-lg text-white bg-green-600 hover:bg-green-700"
+            className="px-6 py-3 rounded-xl text-white bg-primary hover:bg-primary/90 transition disabled:opacity-50"
           >
             Generate Roadmap
           </button>
         </div>
 
         <div className="text-center py-20">
-          <h2 className="text-xl font-semibold">
+          <h2 className="text-xl font-semibold text-white/60">
             Enter a career role to generate your AI roadmap
           </h2>
         </div>
+      </div>
       </div>
     );
   }
@@ -73,27 +75,30 @@ function Roadmap() {
   // Error State
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-100 p-8">
-        <h1 className="text-4xl font-bold mb-8">
+      <div className="min-h-screen bg-background">
+      <div className="mx-auto max-w-7xl px-6 py-8 lg:px-8 lg:py-12">
+        <h1 className="text-4xl font-bold mb-8 text-white">
           🗺️ AI Career Roadmap
         </h1>
 
-        <div className="text-center text-red-600 py-10">
+        <div className="text-center text-danger py-10">
           <p>{error}</p>
           <button
             onClick={handleGenerate}
-            className="mt-4 px-4 py-2 bg-red-500 text-white rounded"
+            className="mt-4 px-4 py-2 bg-danger text-white rounded-xl hover:bg-danger/90 transition"
           >
             Retry
           </button>
         </div>
       </div>
+      </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <h1 className="text-4xl font-bold mb-8">
+    <div className="min-h-screen bg-background">
+    <div className="mx-auto max-w-7xl px-6 py-8 lg:px-8 lg:py-12">
+      <h1 className="text-4xl font-bold mb-8 text-white">
         🗺️ AI Career Roadmap
       </h1>
 
@@ -104,13 +109,13 @@ function Roadmap() {
           placeholder="Enter Career Role (e.g. Frontend Developer)"
           value={role}
           onChange={(e) => setRole(e.target.value)}
-          className="flex-1 border border-gray-300 rounded-lg px-4 py-3"
+          className="flex-1 rounded-xl border border-white/10 bg-card px-4 py-3 text-white placeholder:text-white/35 outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/30"
         />
 
         <button
           onClick={handleGenerate}
           disabled={loading}
-          className="px-6 py-3 rounded-lg text-white bg-green-600 hover:bg-green-700"
+          className="px-6 py-3 rounded-xl text-white bg-primary hover:bg-primary/90 transition disabled:opacity-50"
         >
           {loading ? "Generating..." : "Generate Roadmap"}
         </button>
@@ -119,7 +124,7 @@ function Roadmap() {
       {/* Loading */}
       {loading ? (
         <div className="flex justify-center items-center py-20">
-          <div className="w-12 h-12 border-4 border-green-600 border-t-transparent rounded-full animate-spin"></div>
+          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
         </div>
       ) : (
         <>
@@ -130,8 +135,8 @@ function Roadmap() {
           />
 
           {/* Learning Path */}
-          <div className="bg-white rounded-2xl shadow-lg p-6 mt-8">
-            <h2 className="text-2xl font-bold mb-6">
+          <div className="bg-card border border-white/5 rounded-2xl shadow-lg shadow-black/20 p-6 mt-8">
+            <h2 className="text-2xl font-bold mb-6 text-white">
               Learning Path
             </h2>
 
@@ -170,6 +175,7 @@ function Roadmap() {
           </div>
         </>
       )}
+    </div>
     </div>
   );
 }

@@ -1,102 +1,122 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
+import { isValidEmail } from "../../utils/validation";
+import { ROUTES } from "../../utils/constants";
 
 import Card from "../../components/ui/Card";
 import Input from "../../components/ui/Input";
 import Button from "../../components/ui/Button";
 import PageTitle from "../../components/common/PageTitle";
+import Spinner from "../../components/ui/Spinner";
+import Alert from "../../components/ui/Alert";
+import AuthLayout from "../../layouts/AuthLayout";
+
+// TODO: once the backend is connected, replace the dummy response below
+// with: import { login as loginUser } from "../../api/authService";
 
 function Login() {
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
   async function handleSubmit(e) {
     e.preventDefault();
 
-    if (!email || !password) {
-      alert("Please enter email and password.");
+    setError("");
+    setLoading(true);
+
+    if (!email.trim() || !password.trim()) {
+      setError("Please enter email and password.");
+      setLoading(false);
       return;
     }
 
-    // Temporary dummy login
-    // Replace this block with axios later
-    const response = {
-      data: {
-        success: true,
-        token: "DummyJWTToken123",
-        user: {
-          name: "Laiba",
-          email: email,
+    if (!isValidEmail(email)) {
+      setError("Please enter a valid email address.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      // Temporary dummy login.
+      // TODO: Replace with loginUser() when backend is connected.
+      const response = {
+        data: {
+          success: true,
+          token: "DummyJWTToken123",
+          user: {
+            name: "Career OS User",
+            email,
+          },
         },
-      },
-    };
+      };
 
-    if (response.data.success) {
-      localStorage.setItem(
-        "token",
-        response.data.token
-      );
-
-      localStorage.setItem(
-        "user",
-        JSON.stringify(response.data.user)
-      );
-
-      //After successful login, take the user to the Dashboard
-      navigate("/dashboard");
+      if (response.data.success) {
+        login(response.data.user, response.data.token);
+        navigate(ROUTES.DASHBOARD);
+      } else {
+        setError("Invalid email or password.");
+      }
+    } catch {
+      setError("Login failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
   }
 
   return (
-    <Card>
-      <PageTitle title="Login" />
+    <AuthLayout>
+      <Card>
+        <PageTitle title="Login" subtitle="Welcome back, log in to continue." />
 
-      <form onSubmit={handleSubmit}>
-        <Input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) =>
-            setEmail(e.target.value)
-          }
-        />
+        <Alert message={error} />
 
-        <br />
-        <br />
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <Input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-        <Input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) =>
-            setPassword(e.target.value)
-          }
-        />
+          <Input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-        <br />
-        <br />
+          {loading && <Spinner />}
 
-        <Button
-          text="Login"
-          type="submit"
-        />
-      </form>
-    </Card>
+          <Button
+            text={loading ? "Logging in..." : "Login"}
+            type="submit"
+            disabled={loading}
+            fullWidth
+          />
+        </form>
+
+        <div className="mt-6 flex flex-col items-center gap-3 text-sm">
+          <Link to={ROUTES.FORGOT_PASSWORD} className="text-primary hover:underline">
+            Forgot Password?
+          </Link>
+
+          <p className="text-white/50">
+            Don&apos;t have an account?{" "}
+            <Link to={ROUTES.SIGNUP} className="font-medium text-primary hover:underline">
+              Sign Up
+            </Link>
+          </p>
+        </div>
+      </Card>
+    </AuthLayout>
   );
 }
 
 export default Login;
-
-// after completing backend, only replace the dummy response inside handleSubmit with an Axios request.
-
-// import axios from "axios";
-
-// const response = await axios.post(
-//   "/api/v1/auth/login",
-//   {
-//     email,
-//     password,
-//   }
-// );

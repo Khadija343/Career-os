@@ -1,9 +1,9 @@
 function InfoCard({ label, value }) {
   return (
-    <div className="bg-white shadow rounded-xl p-4 mb-4 border">
-      <h3 className="text-gray-500 text-sm">{label}</h3>
+    <div className="bg-card shadow-lg shadow-black/20 rounded-xl p-4 mb-4 border border-white/5">
+      <h3 className="text-white/50 text-sm">{label}</h3>
 
-      <p className="text-lg font-semibold text-gray-800">
+      <p className="text-lg font-semibold text-white">
         {value}
       </p>
     </div>

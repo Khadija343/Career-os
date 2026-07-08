@@ -19,24 +19,31 @@ const data = [
 
 function WeeklyActivity() {
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-6 mt-10">
-      <h2 className="text-2xl font-bold mb-6">
+    <div className="bg-card border border-white/5 rounded-2xl shadow-lg shadow-black/20 p-6 mt-10">
+      <h2 className="text-2xl font-bold mb-6 text-white">
         📊 Weekly Activity
       </h2>
 
       <div className="w-full h-72">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data}>
-            <XAxis dataKey="day" />
+            <XAxis dataKey="day" stroke="#ffffff40" tick={{ fill: "#94a3b8" }} />
 
-            <YAxis />
+            <YAxis stroke="#ffffff40" tick={{ fill: "#94a3b8" }} />
 
-            <Tooltip />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "#1e293b",
+                border: "1px solid rgba(255,255,255,0.1)",
+                borderRadius: "0.75rem",
+                color: "#fff",
+              }}
+            />
 
             <Line
               type="monotone"
               dataKey="progress"
-              stroke="#2563eb"
+              stroke="#6366f1"
               strokeWidth={3}
             />
           </LineChart>

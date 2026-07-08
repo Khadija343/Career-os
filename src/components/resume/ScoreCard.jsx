@@ -2,13 +2,13 @@ import { TrendingUp } from "lucide-react";
 
 function ScoreCard({ title, score }) {
   return (
-    <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-3xl p-6 shadow-xl hover:scale-105 transition duration-300">
+    <div className="bg-gradient-to-r from-primary to-secondary text-white rounded-3xl p-6 shadow-xl shadow-black/20 hover:-translate-y-0.5 transition duration-300">
 
       <div className="flex justify-between items-center">
 
         <div>
 
-          <h3 className="text-lg text-blue-100">
+          <h3 className="text-lg text-white/80">
             {title}
           </h3>
 
@@ -16,7 +16,7 @@ function ScoreCard({ title, score }) {
             {score}
           </h2>
 
-          <p className="mt-3 text-blue-100">
+          <p className="mt-3 text-white/80">
             Excellent Performance
           </p>
 

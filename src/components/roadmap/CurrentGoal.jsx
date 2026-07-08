@@ -1,6 +1,6 @@
 function CurrentGoal({ goal, progress }) {
   return (
-    <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl p-6 shadow-lg">
+    <div className="bg-gradient-to-r from-primary to-secondary text-white rounded-2xl p-6 shadow-lg shadow-black/20">
       <h2 className="text-xl font-semibold">
         🎯 Current Goal
       </h2>
@@ -13,7 +13,7 @@ function CurrentGoal({ goal, progress }) {
         Progress: {progress}%
       </p>
 
-      <div className="w-full bg-blue-300 rounded-full h-3 mt-3">
+      <div className="w-full bg-white/20 rounded-full h-3 mt-3">
         <div
           className="bg-white h-3 rounded-full"
           style={{ width: `${progress}%` }}
