@@ -1,8 +1,13 @@
+import { Trophy } from "lucide-react";
+
 function MilestoneCard({ title }) {
   return (
-    <div className="bg-card border border-white/5 rounded-xl shadow-lg shadow-black/20 p-5 hover:border-white/10 transition">
-      <h2 className="text-lg font-semibold text-white">
-        🏆 {title}
+    <div className="flex h-full items-center gap-3 rounded-xl border border-white/5 bg-card p-5 shadow-lg shadow-black/20 transition-colors hover:border-white/10">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary">
+        <Trophy size={18} />
+      </div>
+      <h2 className="text-base font-semibold text-white">
+        {title}
       </h2>
     </div>
   );

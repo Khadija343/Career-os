@@ -1,14 +1,21 @@
+import { Activity } from "lucide-react";
+
 function ActivityCard({ activity, date }) {
   return (
-    <div className="bg-card border border-white/5 rounded-xl shadow-md shadow-black/20 p-4 mb-4">
+    <div className="flex items-start gap-3 rounded-xl border border-white/5 bg-card p-4 shadow-md shadow-black/20">
+      <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary">
+        <Activity size={16} />
+      </div>
 
-      <h3 className="font-semibold text-white">
-        {activity}
-      </h3>
+      <div>
+        <h3 className="font-semibold text-white">
+          {activity}
+        </h3>
 
-      <p className="text-white/50 mt-1">
-        {date}
-      </p>
+        <p className="mt-0.5 text-sm text-white/50">
+          {date}
+        </p>
+      </div>
 
     </div>
   );

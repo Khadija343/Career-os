@@ -1,6 +1,6 @@
 function SectionTitle({ title }) {
   return (
-    <h2 className="text-xl font-bold text-white mb-4">
+    <h2 className="mb-4 text-lg font-bold tracking-tight text-white sm:text-xl">
       {title}
     </h2>
   );

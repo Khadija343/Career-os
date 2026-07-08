@@ -1,34 +1,43 @@
-import { TrendingUp } from "lucide-react";
+import { TrendingUp, ArrowUpRight } from "lucide-react";
 
-function ScoreCard({ title, score }) {
+import AnimatedNumber from "../ui/AnimatedNumber";
+
+function ScoreCard({ title, score, suffix = "%" }) {
+  const numericScore = parseInt(score, 10) || 0;
+
   return (
-    <div className="bg-gradient-to-r from-primary to-secondary text-white rounded-3xl p-6 shadow-xl shadow-black/20 hover:-translate-y-0.5 transition duration-300">
+    <div className="h-full rounded-2xl bg-gradient-to-br from-primary to-secondary p-6 text-white shadow-xl shadow-black/20 transition-transform duration-300 hover:-translate-y-0.5">
 
-      <div className="flex justify-between items-center">
+      <div className="flex items-start justify-between">
 
         <div>
 
-          <h3 className="text-lg text-white/80">
+          <h3 className="text-sm font-medium text-white/80">
             {title}
           </h3>
 
-          <h2 className="text-5xl font-bold mt-3">
-            {score}
+          <h2 className="mt-3 text-4xl font-bold sm:text-5xl">
+            <AnimatedNumber value={numericScore} />{suffix}
           </h2>
 
-          <p className="mt-3 text-white/80">
+          <p className="mt-2 text-sm text-white/80">
             Excellent Performance
           </p>
 
         </div>
 
-        <TrendingUp size={50} />
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/15">
+          <TrendingUp size={24} />
+        </div>
 
       </div>
 
-      <div className="mt-6 text-sm bg-white/20 inline-block px-3 py-2 rounded-full">
-        ↑ +5% this week
-      </div>
+      {suffix === "%" && (
+        <div className="mt-5 inline-flex items-center gap-1 rounded-full bg-white/15 px-3 py-1.5 text-xs font-semibold">
+          <ArrowUpRight size={14} />
+          +5% this week
+        </div>
+      )}
 
     </div>
   );

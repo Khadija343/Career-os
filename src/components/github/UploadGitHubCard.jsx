@@ -1,5 +1,9 @@
 import { useState } from "react";
+import { GitBranch } from "lucide-react";
+
 import { analyzeGithub } from "../../api/githubApi";
+import Input from "../ui/Input";
+import Button from "../ui/Button";
 
 function UploadGitHubCard({ onSuccess }) {
   const [username, setUsername] = useState("");
@@ -29,32 +33,28 @@ function UploadGitHubCard({ onSuccess }) {
   };
 
   return (
-    <div className="bg-card border border-white/5 p-6 rounded-xl shadow-lg shadow-black/20 w-full max-w-md">
-      <h2 className="text-xl font-bold mb-4 text-white">
+    <div className="w-full max-w-md rounded-2xl border border-white/5 bg-card p-6 shadow-lg shadow-black/20">
+      <h2 className="mb-4 flex items-center gap-2 text-xl font-bold text-white">
+        <GitBranch size={20} className="text-primary" />
         GitHub Analysis
       </h2>
 
-      <input
+      <Input
         type="text"
         placeholder="Enter GitHub username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
-        className="w-full rounded-xl border border-white/10 bg-background px-4 py-2.5 text-sm text-white placeholder:text-white/35 outline-none transition-all duration-200 focus:border-primary/50 focus:ring-2 focus:ring-primary/30"
+        error={error}
       />
 
-      {error && (
-        <p className="text-danger text-sm mt-2">
-          {error}
-        </p>
-      )}
-
-      <button
+      <Button
         onClick={handleAnalyze}
         disabled={loading}
-        className="mt-4 w-full bg-primary text-white py-2 rounded-xl hover:bg-primary/90 transition disabled:opacity-50"
+        fullWidth
+        className="mt-4"
       >
         {loading ? "Analyzing..." : "Analyze"}
-      </button>
+      </Button>
     </div>
   );
 }

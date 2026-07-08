@@ -17,38 +17,38 @@ function Dashboard() {
   const stats = [
     {
       title: "Career Score",
-      value: "92%",
-      icon: <Award size={32} />,
+      value: 92,
+      icon: <Award size={22} />,
       description: "Excellent Progress",
     },
     {
       title: "Resume Score",
-      value: "88%",
-      icon: <FileText size={32} />,
+      value: 88,
+      icon: <FileText size={22} />,
       description: "ATS Optimized",
     },
     {
       title: "GitHub Health",
-      value: "81%",
-      icon: <GitBranch size={32} />,
+      value: 81,
+      icon: <GitBranch size={22} />,
       description: "Good Activity",
     },
     {
       title: "Weekly Progress",
-      value: "76%",
-      icon: <TrendingUp size={32} />,
+      value: 76,
+      icon: <TrendingUp size={22} />,
       description: "Keep Going!",
     },
   ];
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-7xl px-6 py-8 lg:px-8 lg:py-12">
+      <div className="mx-auto max-w-7xl space-y-8 px-6 py-8 lg:px-8 lg:py-12">
 
         <WelcomeBanner />
 
         {/* Stat Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {stats.map((stat, index) => (
             <StatCard
               key={index}
@@ -61,7 +61,7 @@ function Dashboard() {
         </div>
 
         {/* Analytics + Progress */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-10">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
 
           <AnalyticsCard
             title="Resume Analysis"
@@ -77,19 +77,13 @@ function Dashboard() {
         </div>
 
         {/* Weekly Activity */}
-        <div className="mt-10">
-          <WeeklyActivity />
-        </div>
+        <WeeklyActivity />
 
         {/* AI Recommendations */}
-        <div className="mt-10">
-          <RecommendationSection />
-        </div>
+        <RecommendationSection />
 
         {/* Goals */}
-        <div className="mt-10">
-          <GoalsSection />
-        </div>
+        <GoalsSection />
 
       </div>
     </div>

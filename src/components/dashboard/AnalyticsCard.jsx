@@ -1,15 +1,15 @@
+import Button from "../ui/Button";
+
 function AnalyticsCard({ title, subtitle, buttonText }) {
   return (
-    <div className="bg-card border border-white/5 rounded-2xl shadow-lg shadow-black/20 p-6 hover:border-white/10 transition">
+    <div className="flex h-full flex-col rounded-2xl border border-white/5 bg-card p-6 shadow-lg shadow-black/20 transition-colors hover:border-white/10">
       <h2 className="text-xl font-bold text-white">{title}</h2>
 
-      <p className="text-white/50 mt-2">
+      <p className="mt-2 flex-1 text-sm text-white/50">
         {subtitle}
       </p>
 
-      <button className="mt-5 bg-primary text-white px-4 py-2 rounded-xl hover:bg-primary/90 transition">
-        {buttonText}
-      </button>
+      <Button text={buttonText} className="mt-5 self-start" />
     </div>
   );
 }

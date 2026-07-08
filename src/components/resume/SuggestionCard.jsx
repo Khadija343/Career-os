@@ -2,7 +2,7 @@ import { Lightbulb, ArrowRight } from "lucide-react";
 
 function SuggestionCard({ suggestion }) {
   return (
-    <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-2xl p-5 shadow-md hover:shadow-lg transition duration-300 mt-4">
+    <div className="rounded-2xl border border-yellow-500/30 bg-yellow-500/10 p-5 shadow-md transition-shadow duration-300 hover:shadow-lg">
 
       <div className="flex justify-between items-start">
 

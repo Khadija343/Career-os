@@ -1,3 +1,4 @@
+import { BarChart3 } from "lucide-react";
 import {
   LineChart,
   Line,
@@ -19,9 +20,10 @@ const data = [
 
 function WeeklyActivity() {
   return (
-    <div className="bg-card border border-white/5 rounded-2xl shadow-lg shadow-black/20 p-6 mt-10">
-      <h2 className="text-2xl font-bold mb-6 text-white">
-        📊 Weekly Activity
+    <div className="rounded-2xl border border-white/5 bg-card p-6 shadow-lg shadow-black/20">
+      <h2 className="mb-6 flex items-center gap-2 text-xl font-bold text-white">
+        <BarChart3 size={20} className="text-primary" />
+        Weekly Activity
       </h2>
 
       <div className="w-full h-72">

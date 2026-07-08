@@ -1,5 +1,8 @@
 import { useState } from "react";
+import { UploadCloud, CheckCircle2 } from "lucide-react";
+
 import aiService from "../../services/aiService";
+import Button from "../ui/Button";
 
 function UploadResumeCard({ onUploadSuccess }) {
   const [file, setFile] = useState(null);
@@ -48,24 +51,26 @@ function UploadResumeCard({ onUploadSuccess }) {
   };
 
   return (
-    <div className="bg-card border border-white/5 rounded-xl shadow-lg shadow-black/20 p-6">
+    <div className="rounded-2xl border border-white/5 bg-card p-6 shadow-lg shadow-black/20">
 
-      <h2 className="text-xl font-bold mb-4 text-white">
+      <h2 className="mb-4 text-xl font-bold text-white">
         Upload Resume
       </h2>
 
       {/* DROP AREA */}
-      <div
+      <label
         onDrop={handleDrop}
         onDragOver={handleDragOver}
-        className="border-2 border-dashed border-white/15 rounded-lg p-6 text-center"
+        className="flex cursor-pointer flex-col items-center gap-2 rounded-xl border-2 border-dashed border-white/15 p-8 text-center transition-colors hover:border-primary/40 hover:bg-white/[0.02]"
       >
-        <p className="text-white/50">
+        <UploadCloud size={28} className="text-white/40" />
+
+        <p className="text-sm text-white/50">
           Drag & drop your resume here
         </p>
 
-        <p className="text-sm text-white/30 mt-1">
-          or choose file below
+        <p className="text-xs text-white/30">
+          or click to choose a file
         </p>
 
         <input
@@ -73,41 +78,39 @@ function UploadResumeCard({ onUploadSuccess }) {
           accept=".pdf,.doc,.docx"
           disabled={loading}
           onChange={(e) => setFile(e.target.files[0])}
-          className="mt-3 text-white/70"
+          className="sr-only"
         />
-      </div>
+      </label>
 
       {/* Selected file */}
       {file && (
-        <p className="mt-2 text-success text-sm">
+        <p className="mt-3 flex items-center gap-1.5 text-sm text-success">
+          <CheckCircle2 size={16} />
           Selected: {file.name}
         </p>
       )}
 
       {/* ERROR (NO ALERTS) */}
       {error && (
-        <div className="mt-3 bg-danger/10 text-danger p-2 rounded">
+        <div className="mt-3 rounded-lg bg-danger/10 p-2 text-sm text-danger">
           {error}
         </div>
       )}
 
       {/* BUTTON */}
-      <button
+      <Button
         onClick={() => handleUpload()}
         disabled={loading}
-        className={`mt-4 px-5 py-2 rounded-xl text-white transition ${
-          loading
-            ? "bg-white/10 cursor-not-allowed"
-            : "bg-primary hover:bg-primary/90"
-        }`}
+        fullWidth
+        className="mt-4"
       >
         {loading ? "Uploading..." : "Upload Resume"}
-      </button>
+      </Button>
 
       {/* LOADING BAR */}
       {loading && (
-        <div className="mt-4 w-full bg-white/10 h-2 rounded">
-          <div className="h-2 bg-primary animate-pulse w-full rounded"></div>
+        <div className="mt-4 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
+          <div className="h-full w-full animate-pulse rounded-full bg-primary"></div>
         </div>
       )}
     </div>

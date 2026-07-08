@@ -36,14 +36,14 @@ function Sidebar({ isOpen = false, onClose }) {
   const location = useLocation();
 
   const content = (
-    <aside className="flex h-full w-64 flex-col gap-6 border-r border-white/5 bg-card p-4">
+    <aside className="flex h-full w-64 flex-col gap-6 overflow-y-auto border-r border-white/5 bg-card p-4">
       {onClose && (
         <div className="mb-2 flex items-center justify-between lg:hidden">
           <Logo />
 
           <button
             onClick={onClose}
-            className="rounded-lg p-2 text-white/60 transition hover:bg-white/5 hover:text-white"
+            className="rounded-lg p-2 text-white/60 transition-colors hover:bg-white/5 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             aria-label="Close sidebar"
           >
             <X size={20} />
@@ -60,14 +60,18 @@ function Sidebar({ isOpen = false, onClose }) {
               <Link
                 to={to}
                 onClick={onClose}
-                className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors
+                aria-current={isActive ? "page" : undefined}
+                className={`group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary
                   ${
                     isActive
                       ? "bg-primary/15 text-primary"
-                      : "text-white/60 hover:bg-white/5 hover:text-white"
+                      : "text-white/60 hover:translate-x-0.5 hover:bg-white/5 hover:text-white"
                   }`}
               >
-                <Icon size={18} />
+                {isActive && (
+                  <span className="absolute left-0 top-1/2 h-5 -translate-y-1/2 w-1 rounded-r-full bg-primary" />
+                )}
+                <Icon size={18} className="shrink-0" />
                 {label}
               </Link>
             </li>
@@ -81,7 +85,7 @@ function Sidebar({ isOpen = false, onClose }) {
         {UPCOMING_ITEMS.map(({ label, icon: Icon }) => (
           <li key={label}>
             <div className="flex cursor-not-allowed items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-white/30">
-              <Icon size={18} />
+              <Icon size={18} className="shrink-0" />
               <span className="flex-1">{label}</span>
               <span className="rounded-md bg-white/5 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-white/30">
                 Soon
@@ -95,8 +99,10 @@ function Sidebar({ isOpen = false, onClose }) {
 
   return (
     <>
-      {/* Desktop: fixed sidebar */}
-      <div className="hidden lg:block">{content}</div>
+      {/* Desktop: persistent, independently scrollable sidebar */}
+      <div className="hidden lg:sticky lg:top-16 lg:block lg:h-[calc(100vh-4rem)]">
+        {content}
+      </div>
 
       {/* Mobile: drawer */}
       <div

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FileText, Tags } from "lucide-react";
 
 import ScoreCard from "../../components/resume/ScoreCard";
 import AnalysisCard from "../../components/resume/AnalysisCard";
@@ -14,15 +15,19 @@ function ResumeAnalysis() {
     setAnalysis(response);
   };
 
-  // 🔴 EMPTY STATE
+  // EMPTY STATE
   if (!analysis) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-background px-6 py-8 lg:px-8 lg:py-12 text-white/60">
-        <h2 className="text-2xl font-bold mb-4 text-white">
-          📄 Resume Analysis
+      <div className="flex min-h-screen flex-col items-center justify-center bg-background px-6 py-8 text-white/60 lg:px-8 lg:py-12">
+        <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/15 text-primary">
+          <FileText size={28} />
+        </div>
+
+        <h2 className="mb-2 text-2xl font-bold text-white">
+          Resume Analysis
         </h2>
 
-        <p className="mb-6">
+        <p className="mb-6 text-center">
           Upload your resume to start analysis
         </p>
 
@@ -31,71 +36,73 @@ function ResumeAnalysis() {
     );
   }
 
-  // 🔵 MAIN UI
+  // MAIN UI
   return (
     <div className="min-h-screen bg-background">
-    <div className="mx-auto max-w-7xl px-6 py-8 lg:px-8 lg:py-12">
-      <h1 className="text-4xl font-bold mb-8 text-white">
-        📄 Resume Analysis
-      </h1>
+      <div className="mx-auto max-w-7xl space-y-8 px-6 py-8 lg:px-8 lg:py-12">
+        <h1 className="flex items-center gap-3 text-3xl font-bold text-white sm:text-4xl">
+          <FileText size={30} className="text-primary" />
+          Resume Analysis
+        </h1>
 
-      {/* SCORE CARDS */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <ScoreCard
-          title="Resume Score"
-          score={`${analysis?.resumeScore || 0}%`}
-        />
+        {/* SCORE CARDS */}
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <ScoreCard
+            title="Resume Score"
+            score={`${analysis?.resumeScore || 0}%`}
+          />
 
-        <ScoreCard
-          title="ATS Score"
-          score={`${analysis?.atsScore || 0}%`}
-        />
-      </div>
-
-      {/* STRENGTHS / WEAKNESSES */}
-      <div className="mt-8">
-        <AnalysisCard
-          title="Strengths"
-          type="success"
-          items={analysis?.strengths || []}
-        />
-
-        <AnalysisCard
-          title="Weaknesses"
-          type="danger"
-          items={analysis?.weaknesses || []}
-        />
-      </div>
-
-      {/* KEYWORDS */}
-      <div className="mt-8">
-        <h2 className="text-2xl font-bold mb-4 text-white">
-          Matched Keywords
-        </h2>
-
-        <div className="flex flex-wrap gap-3">
-          {(analysis?.keywords || []).map((item, index) => (
-            <KeywordTag
-              key={index}
-              keyword={item.name}
-              matched={item.matched}
-            />
-          ))}
+          <ScoreCard
+            title="ATS Score"
+            score={`${analysis?.atsScore || 0}%`}
+          />
         </div>
-      </div>
 
-      {/* SUGGESTIONS */}
-      <div className="mt-8">
-        {(analysis?.suggestions || []).map((s, index) => (
-          <SuggestionCard key={index} suggestion={s} />
-        ))}
-      </div>
+        {/* STRENGTHS / WEAKNESSES */}
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <AnalysisCard
+            title="Strengths"
+            type="success"
+            items={analysis?.strengths || []}
+          />
 
-      {/* UPLOAD AGAIN */}
-      <div className="mt-8">
+          <AnalysisCard
+            title="Weaknesses"
+            type="danger"
+            items={analysis?.weaknesses || []}
+          />
+        </div>
+
+        {/* KEYWORDS */}
+        <div className="rounded-2xl border border-white/5 bg-card p-6 shadow-lg shadow-black/20">
+          <h2 className="mb-4 flex items-center gap-2 text-xl font-bold text-white">
+            <Tags size={20} className="text-primary" />
+            Matched Keywords
+          </h2>
+
+          <div className="flex flex-wrap gap-3">
+            {(analysis?.keywords || []).map((item, index) => (
+              <KeywordTag
+                key={index}
+                keyword={item.name}
+                matched={item.matched}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* SUGGESTIONS */}
+        {(analysis?.suggestions || []).length > 0 && (
+          <div className="space-y-4">
+            {analysis.suggestions.map((s, index) => (
+              <SuggestionCard key={index} suggestion={s} />
+            ))}
+          </div>
+        )}
+
+        {/* UPLOAD AGAIN */}
         <UploadResumeCard onUploadSuccess={handleUploadSuccess} />
       </div>
-    </div>
     </div>
   );
 }

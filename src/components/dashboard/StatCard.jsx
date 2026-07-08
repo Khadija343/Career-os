@@ -1,16 +1,30 @@
+import AnimatedNumber from "../ui/AnimatedNumber";
+
 function StatCard({ title, value, icon, description }) {
+  const isPercentage = typeof value === "number";
+
   return (
-    <div className="bg-card border border-white/5 rounded-2xl shadow-lg shadow-black/20 p-6 hover:-translate-y-0.5 hover:border-white/10 transition duration-300">
-      <div className="flex justify-between items-center">
+    <div className="h-full rounded-2xl border border-white/5 bg-card p-6 shadow-lg shadow-black/20 transition-all duration-300 hover:-translate-y-0.5 hover:border-white/10">
+      <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-white/50 text-sm">{title}</h3>
+          <h3 className="text-sm text-white/50">{title}</h3>
 
-          <h2 className="text-3xl font-bold mt-2 text-white">{value}</h2>
+          <h2 className="mt-2 text-3xl font-bold text-white">
+            {isPercentage ? (
+              <>
+                <AnimatedNumber value={value} />%
+              </>
+            ) : (
+              value
+            )}
+          </h2>
 
-          <p className="text-white/40 mt-2">{description}</p>
+          <p className="mt-2 text-sm text-white/40">{description}</p>
         </div>
 
-        <div className="text-primary">{icon}</div>
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/15 text-primary">
+          {icon}
+        </div>
       </div>
     </div>
   );

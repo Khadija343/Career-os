@@ -1,18 +1,20 @@
+import AnimatedNumber from "../ui/AnimatedNumber";
+
 function ProgressCard({ title, progress }) {
   return (
-    <div className="bg-card border border-white/5 rounded-2xl shadow-lg shadow-black/20 p-6">
+    <div className="rounded-2xl border border-white/5 bg-card p-6 shadow-lg shadow-black/20">
 
-      <h2 className="text-xl font-semibold text-white">
+      <h2 className="text-lg font-semibold text-white sm:text-xl">
         {title}
       </h2>
 
-      <h1 className="text-4xl font-bold text-primary mt-4">
-        {progress}%
+      <h1 className="mt-4 text-4xl font-bold text-primary">
+        <AnimatedNumber value={progress} />%
       </h1>
 
-      <div className="w-full bg-white/10 rounded-full h-3 mt-5">
+      <div className="mt-5 h-3 w-full rounded-full bg-white/10">
         <div
-          className="bg-primary h-3 rounded-full transition-all duration-500"
+          className="h-3 rounded-full bg-primary transition-all duration-500"
           style={{ width: `${progress}%` }}
         ></div>
       </div>

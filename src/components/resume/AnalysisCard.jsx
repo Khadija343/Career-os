@@ -4,8 +4,8 @@ function AnalysisCard({ title, items, type }) {
   const isSuccess = type === "success";
 
   return (
-    <div className="bg-card border border-white/5 rounded-3xl shadow-lg shadow-black/20 p-6 mt-6 hover:border-white/10 transition duration-300">
-      <h2 className="text-2xl font-bold mb-5 text-white">
+    <div className="h-full rounded-2xl border border-white/5 bg-card p-6 shadow-lg shadow-black/20 transition-colors duration-300 hover:border-white/10">
+      <h2 className="mb-5 text-xl font-bold text-white">
         {title}
       </h2>
 

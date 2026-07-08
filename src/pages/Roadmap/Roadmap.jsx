@@ -1,10 +1,16 @@
 import { useState } from "react";
+import { Map } from "lucide-react";
+
 import aiService from "../../services/aiService";
 
 import CurrentGoal from "../../components/roadmap/CurrentGoal";
 import RoadmapStep from "../../components/roadmap/RoadmapStep";
+import RoadmapCard from "../../components/roadmap/RoadmapCard";
 import MilestoneCard from "../../components/roadmap/MilestoneCard";
 import RecommendationBox from "../../components/roadmap/RecommendationBox";
+import Input from "../../components/ui/Input";
+import Button from "../../components/ui/Button";
+import Spinner from "../../components/ui/Spinner";
 
 function Roadmap() {
   const [role, setRole] = useState("");
@@ -35,39 +41,45 @@ function Roadmap() {
     }
   };
 
+  const PageHeading = (
+    <h1 className="flex items-center gap-3 text-3xl font-bold text-white sm:text-4xl">
+      <Map size={30} className="text-primary" />
+      AI Career Roadmap
+    </h1>
+  );
+
+  const RoleInputRow = (
+    <div className="flex flex-col gap-3 sm:flex-row">
+      <div className="flex-1">
+        <Input
+          type="text"
+          placeholder="Enter Career Role (e.g. Frontend Developer)"
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+        />
+      </div>
+
+      <Button onClick={handleGenerate} disabled={loading}>
+        {loading ? "Generating..." : "Generate Roadmap"}
+      </Button>
+    </div>
+  );
+
   // Empty State
   if (!roadmapData && !loading && !error) {
     return (
       <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-7xl px-6 py-8 lg:px-8 lg:py-12">
-        <h1 className="text-4xl font-bold mb-8 text-white">
-          🗺️ AI Career Roadmap
-        </h1>
+        <div className="mx-auto max-w-7xl space-y-8 px-6 py-8 lg:px-8 lg:py-12">
+          {PageHeading}
 
-        <div className="flex gap-4 mb-8">
-          <input
-            type="text"
-            placeholder="Enter Career Role (e.g. Frontend Developer)"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            className="flex-1 rounded-xl border border-white/10 bg-card px-4 py-3 text-white placeholder:text-white/35 outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/30"
-          />
+          {RoleInputRow}
 
-          <button
-            onClick={handleGenerate}
-            disabled={loading}
-            className="px-6 py-3 rounded-xl text-white bg-primary hover:bg-primary/90 transition disabled:opacity-50"
-          >
-            Generate Roadmap
-          </button>
+          <div className="py-16 text-center">
+            <h2 className="text-lg font-semibold text-white/50">
+              Enter a career role to generate your AI roadmap
+            </h2>
+          </div>
         </div>
-
-        <div className="text-center py-20">
-          <h2 className="text-xl font-semibold text-white/60">
-            Enter a career role to generate your AI roadmap
-          </h2>
-        </div>
-      </div>
       </div>
     );
   }
@@ -76,106 +88,78 @@ function Roadmap() {
   if (error) {
     return (
       <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-7xl px-6 py-8 lg:px-8 lg:py-12">
-        <h1 className="text-4xl font-bold mb-8 text-white">
-          🗺️ AI Career Roadmap
-        </h1>
+        <div className="mx-auto max-w-7xl space-y-8 px-6 py-8 lg:px-8 lg:py-12">
+          {PageHeading}
 
-        <div className="text-center text-danger py-10">
-          <p>{error}</p>
-          <button
-            onClick={handleGenerate}
-            className="mt-4 px-4 py-2 bg-danger text-white rounded-xl hover:bg-danger/90 transition"
-          >
-            Retry
-          </button>
+          <div className="rounded-2xl border border-danger/20 bg-danger/5 py-10 text-center text-danger">
+            <p>{error}</p>
+            <Button variant="danger" onClick={handleGenerate} className="mt-4">
+              Retry
+            </Button>
+          </div>
         </div>
-      </div>
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-background">
-    <div className="mx-auto max-w-7xl px-6 py-8 lg:px-8 lg:py-12">
-      <h1 className="text-4xl font-bold mb-8 text-white">
-        🗺️ AI Career Roadmap
-      </h1>
+      <div className="mx-auto max-w-7xl space-y-8 px-6 py-8 lg:px-8 lg:py-12">
+        {PageHeading}
 
-      {/* Input */}
-      <div className="flex gap-4 mb-8">
-        <input
-          type="text"
-          placeholder="Enter Career Role (e.g. Frontend Developer)"
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-          className="flex-1 rounded-xl border border-white/10 bg-card px-4 py-3 text-white placeholder:text-white/35 outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/30"
-        />
+        {RoleInputRow}
 
-        <button
-          onClick={handleGenerate}
-          disabled={loading}
-          className="px-6 py-3 rounded-xl text-white bg-primary hover:bg-primary/90 transition disabled:opacity-50"
-        >
-          {loading ? "Generating..." : "Generate Roadmap"}
-        </button>
-      </div>
-
-      {/* Loading */}
-      {loading ? (
-        <div className="flex justify-center items-center py-20">
-          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-        </div>
-      ) : (
-        <>
-          {/* Current Goal */}
-          <CurrentGoal
-            goal={roadmapData?.goal}
-            progress={roadmapData?.progress}
-          />
-
-          {/* Learning Path */}
-          <div className="bg-card border border-white/5 rounded-2xl shadow-lg shadow-black/20 p-6 mt-8">
-            <h2 className="text-2xl font-bold mb-6 text-white">
-              Learning Path
-            </h2>
-
-            {roadmapData?.roadmap?.map((item, index) => (
-              <RoadmapStep
-                key={index}
-                title={item}
-                status={
-                  index < 2
-                    ? "completed"
-                    : index === 2
-                    ? "current"
-                    : "pending"
-                }
-              />
-            ))}
+        {/* Loading */}
+        {loading ? (
+          <div className="flex items-center justify-center py-20">
+            <Spinner size={40} />
           </div>
+        ) : (
+          <div className="space-y-8">
+            {/* Current Goal */}
+            <CurrentGoal
+              goal={roadmapData?.goal}
+              progress={roadmapData?.progress}
+            />
 
-          {/* Milestones */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-            {roadmapData?.milestones?.map((item, index) => (
-              <MilestoneCard key={index} title={item} />
-            ))}
-          </div>
-
-          {/* Recommendations */}
-          <div className="mt-8">
-            {roadmapData?.recommendations?.map(
-              (item, index) => (
-                <RecommendationBox
+            {/* Learning Path */}
+            <RoadmapCard title="Learning Path">
+              {roadmapData?.roadmap?.map((item, index, arr) => (
+                <RoadmapStep
                   key={index}
-                  recommendation={item}
+                  title={item}
+                  isLast={index === arr.length - 1}
+                  status={
+                    index < 2
+                      ? "completed"
+                      : index === 2
+                      ? "current"
+                      : "pending"
+                  }
                 />
-              )
+              ))}
+            </RoadmapCard>
+
+            {/* Milestones */}
+            {roadmapData?.milestones?.length > 0 && (
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+                {roadmapData.milestones.map((item, index) => (
+                  <MilestoneCard key={index} title={item} />
+                ))}
+              </div>
+            )}
+
+            {/* Recommendations */}
+            {roadmapData?.recommendations?.length > 0 && (
+              <div className="space-y-3">
+                {roadmapData.recommendations.map((item, index) => (
+                  <RecommendationBox key={index} recommendation={item} />
+                ))}
+              </div>
             )}
           </div>
-        </>
-      )}
-    </div>
+        )}
+      </div>
     </div>
   );
 }

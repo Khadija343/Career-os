@@ -19,7 +19,7 @@ function AnimatedNumber({ value = 0, duration = 1000 }) {
     }, 20);
 
     return () => clearInterval(timer);
-  }, [value]);
+  }, [value, duration]);
 
   return <span>{displayValue}</span>;
 }
