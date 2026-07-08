@@ -6,6 +6,7 @@ import ResumeAnalysis from "../pages/ResumeAnalysis/ResumeAnalysis";
 import GitHubAnalysis from "../pages/GitHubAnalysis/GitHubAnalysis";
 import Roadmap from "../pages/Roadmap/Roadmap";
 import ProgressTracker from "../pages/ProgressTracker/ProgressTracker";
+import ProjectRecommendation from "../pages/ProjectRecommendation/ProjectRecommendation";
 
 function AppRoutes() {
   return (
@@ -18,6 +19,11 @@ function AppRoutes() {
         <Route path="/github" element={<GitHubAnalysis />} />
         <Route path="/roadmap" element={<Roadmap />} />
         <Route path="/progress" element={<ProgressTracker />} />
+
+        <Route
+          path="/project-recommendation"
+          element={<ProjectRecommendation />}
+        />
       </Routes>
     </BrowserRouter>
   );
