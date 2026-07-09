@@ -1,13 +1,53 @@
 import { useState } from "react";
 import { analyzeGithub } from "../../api/githubApi";
 
+// Maps backend/GitHub-API/network failures to a single user-facing
+// message, mirroring getAnalysisErrorMessage in ResumeAnalysis.jsx.
+function getGithubAnalysisErrorMessage(err) {
+  if (err?.code === "ECONNABORTED" || /timeout/i.test(err?.message || "")) {
+    return "GitHub analysis is taking longer than expected. Please try again in a moment.";
+  }
+
+  if (!err?.response) {
+    return "Unable to reach the server. Please check your connection and try again.";
+  }
+
+  const { status, data } = err.response;
+
+  if (status === 404) {
+    return data?.message || "That GitHub username doesn't exist. Please check the spelling and try again.";
+  }
+
+  if (status === 409) {
+    return data?.message || "This account is already connected to a different GitHub username.";
+  }
+
+  if (status === 429) {
+    return data?.message || "GitHub API rate limit exceeded. Please try again later.";
+  }
+
+  if (status === 400) {
+    return data?.message || "Please enter a valid GitHub username.";
+  }
+
+  if (status === 502) {
+    return "Unable to reach GitHub right now. Please try again later.";
+  }
+
+  if (status >= 500) {
+    return "The GitHub analysis service is temporarily unavailable. Please try again shortly.";
+  }
+
+  return data?.message || "Failed to analyze GitHub profile.";
+}
+
 function UploadGitHubCard({ onSuccess }) {
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleAnalyze = async () => {
-    if (!username) {
+    if (!username.trim()) {
       setError("Please enter GitHub username");
       return;
     }
@@ -16,10 +56,10 @@ function UploadGitHubCard({ onSuccess }) {
     setError("");
 
     try {
-      const data = await analyzeGithub(username);
+      const data = await analyzeGithub(username.trim());
       onSuccess(data);
-    } catch {
-      setError("Failed to analyze GitHub profile");
+    } catch (err) {
+      setError(getGithubAnalysisErrorMessage(err));
     } finally {
       setLoading(false);
     }

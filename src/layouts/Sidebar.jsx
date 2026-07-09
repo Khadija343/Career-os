@@ -6,6 +6,8 @@ import {
   GitBranch,
   Map,
   TrendingUp,
+  BrainCircuit,
+  MessageSquare,
 } from "lucide-react";
 import Logo from "../components/common/Logo";
 
@@ -16,6 +18,8 @@ const menuItems = [
   { name: "GitHub Analysis", path: "/github", icon: <GitBranch size={20} /> },
   { name: "Roadmap", path: "/roadmap", icon: <Map size={20} /> },
   { name: "Progress Tracker", path: "/progress", icon: <TrendingUp size={20} /> },
+  { name: "Interview Prep", path: "/interview", icon: <BrainCircuit size={20} /> },
+  { name: "AI Assistant", path: "/chat", icon: <MessageSquare size={20} /> },
 ];
 
 function Sidebar() {

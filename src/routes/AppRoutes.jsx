@@ -12,6 +12,10 @@ import ResumeAnalysis from "../pages/ResumeAnalysis/ResumeAnalysis";
 import GitHubAnalysis from "../pages/GitHubAnalysis/GitHubAnalysis";
 import Roadmap from "../pages/Roadmap/Roadmap";
 import ProgressTracker from "../pages/ProgressTracker/ProgressTracker";
+import Interview from "../pages/Interview/Interview";
+import Chat from "../pages/Chat/Chat";
+import Settings from "../pages/Settings/Settings";
+import NotFound from "../pages/NotFound/NotFound";
 
 import DashboardLayout from "../layouts/DashboardLayout";
 import AuthLayout from "../layouts/AuthLayout";
@@ -54,11 +58,14 @@ function AppRoutes() {
             <Route path="/github" element={<GitHubAnalysis />} />
             <Route path="/roadmap" element={<Roadmap />} />
             <Route path="/progress" element={<ProgressTracker />} />
+            <Route path="/interview" element={<Interview />} />
+            <Route path="/chat" element={<Chat />} />
+            <Route path="/settings" element={<Settings />} />
           </Route>
         </Route>
 
-        {/* Catch-all Redirect */}
-        <Route path="*" element={<Navigate to="/" replace />} />
+        {/* 404 Not Found (final catch-all route) */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

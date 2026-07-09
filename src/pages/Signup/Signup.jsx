@@ -5,9 +5,38 @@ import Card from "../../components/ui/Card";
 import Input from "../../components/ui/Input";
 import Button from "../../components/ui/Button";
 import PageTitle from "../../components/common/PageTitle";
+import { register } from "../../api/authApi";
+import { useAuth } from "../../context/AuthContext";
+
+const PASSWORD_RULE = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/;
+
+// Maps backend/network failures to a single user-facing message.
+function getSignupErrorMessage(err) {
+  if (!err?.response) {
+    return "Unable to reach the server. Please check your connection and try again.";
+  }
+
+  const { status, data } = err.response;
+
+  if (status === 409) {
+    return data?.message || "An account with this email already exists.";
+  }
+
+  if (status === 400 && Array.isArray(data?.errors) && data.errors.length > 0) {
+    return data.errors.map((issue) => issue.message).join(" ");
+  }
+
+  if (status >= 500) {
+    return "Something went wrong on our end. Please try again later.";
+  }
+
+  return data?.message || "Registration failed. Please try again.";
+}
 
 function Signup() {
   const navigate = useNavigate();
+  const { login: setAuthenticatedUser } = useAuth();
+
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -15,6 +44,7 @@ function Signup() {
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -23,32 +53,51 @@ function Signup() {
     if (success) setSuccess("");
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     setError("");
     setSuccess("");
 
-    if (!formData.fullName.trim() || !formData.email.trim() || !formData.password.trim()) {
+    const fullName = formData.fullName.trim();
+    const email = formData.email.trim();
+    const { password } = formData;
+
+    if (!fullName || !email || !password) {
       setError("Please fill in all fields to create your account.");
       return;
     }
 
-    if (formData.password.length < 6) {
-      setError("Password should be at least 6 characters long.");
+    if (fullName.length < 3) {
+      setError("Full name must be at least 3 characters.");
       return;
     }
 
-    localStorage.removeItem("token");
-    localStorage.setItem(
-      "user",
-      JSON.stringify({
-        name: formData.fullName.trim(),
-        email: formData.email.trim(),
-      })
-    );
+    if (password.length < 8 || !PASSWORD_RULE.test(password)) {
+      setError("Password must be at least 8 characters and include an uppercase letter, a lowercase letter, and a number.");
+      return;
+    }
 
-    setSuccess("Account created successfully! Redirecting to login...");
-    window.setTimeout(() => navigate("/login", { replace: true }), 600);
+    setLoading(true);
+
+    try {
+      const result = await register({ fullName, email, password });
+      const { user, token } = result?.data || {};
+
+      if (token) {
+        // Backend returned a JWT on registration: log the user in immediately.
+        setAuthenticatedUser(user, token);
+        setSuccess("Account created successfully! Redirecting...");
+        navigate("/dashboard", { replace: true });
+        return;
+      }
+
+      setSuccess("Account created successfully! Redirecting to login...");
+      window.setTimeout(() => navigate("/login", { replace: true }), 600);
+    } catch (err) {
+      setError(getSignupErrorMessage(err));
+    } finally {
+      setLoading(false);
+    }
   }
 
   function handleGoogleSignup() {
@@ -74,10 +123,10 @@ function Signup() {
         <form onSubmit={handleSubmit} className="space-y-4">
           {error ? <p className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-300">{error}</p> : null}
           {success ? <p className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-300">{success}</p> : null}
-          <Input type="text" name="fullName" placeholder="Full Name" value={formData.fullName} onChange={handleChange} />
-          <Input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} />
-          <Input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} />
-          <Button text="Create Account" type="submit" className="w-full" />
+          <Input type="text" name="fullName" placeholder="Full Name" value={formData.fullName} onChange={handleChange} disabled={loading} />
+          <Input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} disabled={loading} />
+          <Input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} disabled={loading} />
+          <Button text={loading ? "Creating account..." : "Create Account"} type="submit" className="w-full" disabled={loading} />
         </form>
 
         <div className="flex items-center gap-3">
@@ -89,7 +138,8 @@ function Signup() {
         <button
           type="button"
           onClick={handleGoogleSignup}
-          className="flex w-full items-center justify-center rounded-xl border border-slate-700 bg-slate-800/80 px-4 py-3 font-semibold text-slate-100 transition duration-200 hover:border-blue-500 hover:bg-slate-700"
+          disabled={loading}
+          className="flex w-full items-center justify-center rounded-xl border border-slate-700 bg-slate-800/80 px-4 py-3 font-semibold text-slate-100 transition duration-200 hover:border-blue-500 hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-60"
         >
           Continue with Google
         </button>
